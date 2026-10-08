@@ -32,8 +32,8 @@ export const routing = defineRouting({
   // Every URL carries its locale (`/en`, `/fr/projects`, `/ar`), which keeps
   // hreflang, caching and shareable links unambiguous.
   localePrefix: "always",
-  // First visit: Accept-Language, then geo, then the default.
-  localeDetection: true,
+  // English by default: do not auto-divert to fr or ar based on client Accept-Language
+  localeDetection: false,
   localeCookie: {
     name: "NEXT_LOCALE",
     maxAge: 60 * 60 * 24 * 365,
