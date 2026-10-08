@@ -1,0 +1,11 @@
+{
+  "name": "benseba-portfolio",
+  "main": "src/worker-entry.js",
+  "compatibility_date": "2026-10-07",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./out",
+    "binding": "ASSETS"
+  },
+  "workers_dev": true
+}

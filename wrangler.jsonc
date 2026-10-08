@@ -1,0 +1,150 @@
+{
+  // ─────────────────────────────────────────────────────────────────────────
+  // Cloudflare Workers deployment — Next.js via @opennextjs/cloudflare.
+  //
+  // `npm run preview` / `npm run deploy` build Next.js, adapt it into
+  // .open-next/worker.js and then run/deploy that worker. Local Next.js dev
+  // (`npm run dev`) does not use this file; `initOpenNextCloudflareForDev()`
+  // in next.config.ts exposes the same bindings to the dev server.
+  //
+  // Resource IDs marked REPLACE_WITH_* are account-specific and are created by
+  // the one-off commands in `npm run cf:bootstrap:docs` (see
+  // docs/DEPLOYMENT.md) — they cannot be committed by design.
+  // ─────────────────────────────────────────────────────────────────────────
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "portfolio",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-10-07",
+  // nodejs_compat is required by the OpenNext adapter (React Server Components,
+  // node:crypto for cache keys, streaming).
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Static assets produced by the Next.js build are served straight from the
+  // edge; only dynamic routes reach the worker code.
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS",
+  },
+
+  // *.workers.dev stays enabled so previews work before the custom domain is
+  // attached; the production domain is configured in docs/DEPLOYMENT.md.
+  "workers_dev": true,
+  "preview_urls": true,
+
+  "observability": {
+    "enabled": true,
+    // Sampled traces keep the free-tier log budget sane while still catching
+    // slow contact/assistant requests.
+    "head_sampling_rate": 0.1,
+  },
+
+  // Run the worker close to the visitor for lower TTFB on personalised routes.
+  "placement": { "mode": "smart" },
+
+  "account_id": "b0d4360e776fb60b3e311df855c265de",
+
+  "vars": {
+    // Public runtime configuration (safe to expose, also mirrored into the
+    // build for NEXT_PUBLIC_* values — see .env.example).
+    "AVAILABILITY_STATUS": "open",
+    "MAIL_FROM": "Portfolio <hello@example.com>",
+    "MAIL_TO": "bensebalounes2@gmail.com",
+    "MAIL_PROVIDER": "resend",
+    "TURNSTILE_EXPECTED_HOSTNAME": "portfolio.example.com",
+    "AI_CHAT_MODEL": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+    "AI_EMBED_MODEL": "@cf/baai/bge-m3",
+    "AI_RETRIEVAL_TOP_K": "6",
+    "AI_MAX_ANSWER_TOKENS": "700",
+    "CONTACT_RATE_LIMIT_PER_MINUTE": "5",
+    "ASSISTANT_RATE_LIMIT_PER_MINUTE": "20",
+    "STATS_CACHE_TTL_SECONDS": "900",
+    "LINKY_API_URL": "https://linky-api.bensebalounes2.workers.dev",
+    "LINKY_USERNAME": "lounes_owner",
+  },
+
+  // Bindings onto portfolio-db and linky-db.
+  "d1_databases": [
+    {
+      "binding": "NEXT_TAG_CACHE_D1",
+      "database_name": "portfolio-db",
+      "database_id": "3bc59df7-9f00-42ac-be45-ae3e2bffe8c8",
+    },
+    {
+      "binding": "DB",
+      "database_name": "portfolio-db",
+      "database_id": "3bc59df7-9f00-42ac-be45-ae3e2bffe8c8",
+      "migrations_dir": "migrations",
+    },
+    {
+      "binding": "LINKY_DB",
+      "database_name": "linky-db",
+      "database_id": "de5ad069-3ee5-41ce-a5f0-e46f08c9cb0e",
+    },
+  ],
+
+  "kv_namespaces": [
+    // OpenNext incremental cache (ISR/route cache).
+    { "binding": "NEXT_INC_CACHE_KV", "id": "d06bf856e6d3407a8f99e60e06028ad9" },
+    // GitHub/stats snapshots
+    { "binding": "STATS", "id": "99509937de8b423980507f15ff34ae41" },
+  ],
+
+  // Case-study media
+  "r2_buckets": [
+    { "binding": "MEDIA", "bucket_name": "portfolio-media", "preview_bucket_name": "portfolio-media-preview" },
+  ],
+
+  // Vector index for the RAG assistant
+  "vectorize": [{ "binding": "VECTORIZE", "index_name": "portfolio-content" }],
+
+  "ai": { "binding": "AI" },
+
+  // Per-location (colony-scoped) limits enforced in the worker itself; see
+  // src/server/rate-limit.ts for the sliding-window fallback in D1.
+  "ratelimits": [
+    { "name": "CONTACT_RATE_LIMIT", "namespace_id": "1001", "simple": { "limit": 5, "period": 60 } },
+    { "name": "ASSISTANT_RATE_LIMIT", "namespace_id": "1002", "simple": { "limit": 20, "period": 60 } },
+    { "name": "STATS_RATE_LIMIT", "namespace_id": "1003", "simple": { "limit": 60, "period": 60 } },
+  ],
+
+  "env": {
+    // `wrangler deploy --env staging` — same code, isolated resources.
+    "staging": {
+      "name": "portfolio-staging",
+      "vars": {
+        "AVAILABILITY_STATUS": "open",
+        "MAIL_FROM": "Portfolio Staging <hello@example.com>",
+        "MAIL_TO": "owner@example.com",
+        "MAIL_PROVIDER": "mailchannels",
+        "TURNSTILE_EXPECTED_HOSTNAME": "portfolio-staging.workers.dev",
+        "AI_CHAT_MODEL": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+        "AI_EMBED_MODEL": "@cf/baai/bge-m3",
+        "AI_RETRIEVAL_TOP_K": "6",
+        "AI_MAX_ANSWER_TOKENS": "700",
+        "CONTACT_RATE_LIMIT_PER_MINUTE": "20",
+        "ASSISTANT_RATE_LIMIT_PER_MINUTE": "60",
+        "STATS_CACHE_TTL_SECONDS": "300",
+      },
+      "d1_databases": [
+        {
+          "binding": "NEXT_TAG_CACHE_D1",
+          "database_name": "portfolio-db-staging",
+          "database_id": "REPLACE_WITH_D1_STAGING_ID",
+        },
+        {
+          "binding": "DB",
+          "database_name": "portfolio-db-staging",
+          "database_id": "REPLACE_WITH_D1_STAGING_ID",
+          "migrations_dir": "migrations",
+        },
+      ],
+      "kv_namespaces": [
+        { "binding": "NEXT_INC_CACHE_KV", "id": "REPLACE_WITH_KV_CACHE_ID" },
+        { "binding": "STATS", "id": "REPLACE_WITH_KV_STATS_ID" },
+      ],
+      "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "portfolio-media-staging" }],
+      "vectorize": [{ "binding": "VECTORIZE", "index_name": "portfolio-content-staging" }],
+      "ai": { "binding": "AI" },
+    },
+  },
+}

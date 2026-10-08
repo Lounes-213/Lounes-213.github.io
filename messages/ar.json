@@ -1,0 +1,155 @@
+{
+  "meta": {
+    "home": {
+      "title": "{name} · {role}",
+      "description": "{tagline}"
+    },
+    "notFound": {
+      "title": "الصفحة غير موجودة",
+      "description": "هذه الصفحة غير متوفرة."
+    }
+  },
+  "nav": {
+    "work": "الأعمال",
+    "about": "نبذة",
+    "skills": "المهارات",
+    "experience": "الخبرة",
+    "services": "الخدمات",
+    "process": "المنهجية",
+    "architecture": "المعمارية",
+    "notes": "مقالات",
+    "contact": "تواصل",
+    "main": "التنقل الرئيسي",
+    "mobile": "روابط سريعة للأقسام",
+    "menu": "القائمة",
+    "close": "إغلاق"
+  },
+  "availability": {
+    "label": "الحالة",
+    "open": "نشط",
+    "limited": "توفّر محدود",
+    "booked": "محجوز بالكامل حاليًا",
+    "from": "متاح اعتبارًا من {date}",
+    "timezone": "التوقيت المحلي {time}"
+  },
+  "hero": {
+    "eyebrow": "{role}",
+    "terminalCommand": "~ whoami",
+    "terminalStatus": "الحالة",
+    "terminalStack": "التقنيات",
+    "terminalBased": "المقر",
+    "terminalHint": "برمجيات عالية الأداء مبنية بهندسة معمارية نظيفة وربط برمجي متكامل.",
+    "ctaPrimary": "استعراض المشاريع",
+    "ctaSecondary": "تواصل معي",
+    "scroll": "مرّر للاستكشاف",
+    "portraitAlt": "صورة {name}"
+  },
+  "work": {
+    "eyebrow": "أبرز المشاريع",
+    "title": "تطبيقات منجزة وأنظمة برمجية حية",
+    "intro": "تطبيقات موبايل احترافية بـ Flutter ومنصات ويب منشورة تخدم المستخدمين والشركات في الجزائر.",
+    "liveBadge": "جاهز للإنتاج",
+    "viewProject": "عرض المشروع",
+    "viewOnLinkedIn": "منشور لينكد إن",
+    "allFilter": "كل التطبيقات",
+    "screenshots": "{count, plural, one {لقطة شاشة واحدة} few {# لقطات شاشة} other {# لقطة شاشة}}",
+    "openGallery": "عرض لقطات الشاشة",
+    "featured": "مشروع رئيسي",
+    "techStack": "التقنيات المستخدمة"
+  },
+  "about": {
+    "eyebrow": "نبذة",
+    "title": "هندسة تصمد أمام واقع الإنتاج.",
+    "numbersTitle": "بالأرقام",
+    "languagesTitle": "لغات العمل",
+    "portraitPlaceholder": "أضف صورتك في /public/images",
+    "storyLabel": "السيرة"
+  },
+  "skills": {
+    "eyebrow": "المهارات",
+    "title": "الأدوات التي تقف خلف العمل",
+    "intro": "ستة مجالات، مع السياق المهم: ما أبنيه بكل أداة وإلى أي عمق أتقنها.",
+    "tablistLabel": "تصنيفات المهارات",
+    "panelLabel": "مهارات {category}",
+    "proficiency": "مستوى الإتقان",
+    "proficiencyScaleLabel": "{level} من 5",
+    "levels": {
+      "1": "إلمام",
+      "2": "استخدام عملي",
+      "3": "إتقان جيد",
+      "4": "متقدّم",
+      "5": "عميق"
+    },
+    "experience": "{count, plural, zero {لا سنوات مسجّلة} one {سنة واحدة} two {سنتان} few {# سنوات} many {# سنة} other {# سنة}}",
+    "highlighted": "أساسي"
+  },
+  "services": {
+    "eyebrow": "الخدمات",
+    "title": "طرق العمل معًا",
+    "intro": "كل مشروع يُحدَّد نطاقه كتابيًا قبل البدء، بمخرجات ومواعيد يمكن محاسبتي عليها.",
+    "deliverables": "ما تحصل عليه",
+    "timeline": "المدة المعتادة",
+    "engagement": "نوع التعاقد",
+    "investment": "يبدأ من",
+    "request": "اطلب هذه الخدمة",
+    "requestHint": "يفتح نموذج الطلب مع اختيار هذه الخدمة مسبقًا.",
+    "featured": "الأكثر طلبًا",
+    "scopeNote": "كل تعاون يبدأ بنطاق مكتوب: المخرجات والمواعيد وما هو خارج النطاق بوضوح."
+  },
+  "contact": {
+    "eyebrow": "تواصل",
+    "title": "لنبنِ شيئًا يدوم.",
+    "intro": "أخبرني بما تبنيه وما يعيقك. وإن لم أكن الشخص المناسب فسأقول ذلك بوضوح وأدلّك على الأفضل.",
+    "emailCta": "راسلني",
+    "copyEmail": "انسخ البريد الإلكتروني",
+    "emailCopied": "تم نسخ البريد الإلكتروني",
+    "responseTime": "أرد خلال يوم عمل واحد.",
+    "elsewhere": "حسابات أخرى"
+  },
+  "footer": {
+    "sections": "الأقسام",
+    "elsewhere": "حسابات أخرى",
+    "settings": "التفضيلات",
+    "builtWith": "بُني باستخدام",
+    "architectureLink": "كيف بُني هذا الموقع",
+    "backToTop": "إلى الأعلى",
+    "rights": "© {year} {name}. جميع الحقوق محفوظة.",
+    "placeholderNotice": "محتوى تجريبي — استبدله من مجلد src/content."
+  },
+  "theme": {
+    "label": "المظهر",
+    "system": "حسب النظام",
+    "light": "فاتح",
+    "dark": "داكن",
+    "toggle": "تبديل المظهر",
+    "announce": "تم ضبط المظهر على {mode}"
+  },
+  "language": {
+    "label": "اللغة",
+    "toggle": "تغيير اللغة",
+    "announce": "تم ضبط اللغة على {language}"
+  },
+  "numerals": {
+    "label": "الأرقام",
+    "latn": "0123",
+    "arab": "٠١٢٣",
+    "announce": "تم ضبط الأرقام على {style}"
+  },
+  "a11y": {
+    "skipToContent": "تخطَّ إلى المحتوى",
+    "external": "يفتح في تبويب جديد",
+    "currentSection": "القسم الحالي",
+    "backHome": "العودة إلى الرئيسية"
+  },
+  "common": {
+    "present": "حتى الآن",
+    "now": "الآن",
+    "years": "سنة",
+    "loading": "جارٍ التحميل…"
+  },
+  "notFound": {
+    "title": "هذه الصفحة غير متاحة",
+    "body": "قد يكون الرابط قديمًا، أو أن الصفحة لم تُترجم بعد إلى هذه اللغة.",
+    "cta": "العودة إلى الرئيسية"
+  }
+}

@@ -1,0 +1,704 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   tokens.css — single source of truth for the design system.
+   ---------------------------------------------------------------------------
+   Layers of this file, in order:
+     1. Primitive ramps            theme-agnostic raw values
+     2. Non-color tokens           type, space, radii, shadow, motion, layout, z
+     3. Light theme mapping        :root (default)
+     4. Dark theme mapping         [data-theme="dark"] + no-JS media fallback
+     5. Script & direction         RTL sign flipping, Arabic typography tuning
+     6. Reduced motion             token-level collapse to near-zero duration
+
+   Rules
+   - Components never hardcode colors, sizes or timings: they consume semantic
+     tokens (--bg, --fg, --accent-solid, --space-4, --dur-3, …).
+   - Every semantic color token MUST exist in both theme mappings. That
+     invariant is machine-checked:
+        npm run audit:contrast
+   - Physical directions (left/right, margin-left) are forbidden in component
+     CSS. Use logical properties (`ms-`, `me-`, `ps-`, `pe-`, `inset-inline-*`)
+     and the `--dir-sign` token for transforms that must mirror in RTL.
+   - Tailwind reads these through the bridge in `globals.css`
+     (`@theme inline { --color-bg: var(--bg); … }`), so utilities stay
+     theme-aware without any `dark:` variant duplication.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer tokens {
+  /* ── 1. Primitive ramps ──────────────────────────────────────────────────
+     Raw values only. Never referenced directly by components. */
+
+  :root {
+    /* Ink — cool neutral, the backbone of the editorial feel */
+    --ink-0: #ffffff;
+    --ink-25: #fbfcfd;
+    --ink-50: #f5f7fa;
+    --ink-100: #eaeef4;
+    --ink-200: #dce2ec;
+    --ink-300: #c2cbda;
+    --ink-350: #a9b3c4;
+    --ink-400: #97a2b6;
+    --ink-450: #7f8a9c;
+    --ink-500: #6c778c;
+    --ink-560: #667085;
+    --ink-600: #4e5769;
+    --ink-700: #39404f;
+    --ink-800: #252b36;
+    --ink-900: #161b23;
+    --ink-950: #0b0f16;
+    --ink-1000: #060910;
+
+    /* Brand — ultramarine. The single signature accent of the product. */
+    --brand-50: #eef1ff;
+    --brand-100: #dde3ff;
+    --brand-200: #c0c9ff;
+    --brand-300: #9ca8ff;
+    --brand-400: #7a85fb;
+    --brand-500: #5462f0;
+    --brand-600: #3b45de;
+    --brand-700: #2c33b6;
+    --brand-800: #242a8f;
+    --brand-900: #1f2470;
+    --brand-950: #141748;
+
+    /* Jade — success */
+    --jade-50: #e7f7f0;
+    --jade-100: #c8efdd;
+    --jade-300: #86e7b8;
+    --jade-400: #4cd79a;
+    --jade-500: #1fb877;
+    --jade-600: #13885a;
+    --jade-650: #0f7a51;
+    --jade-700: #0e6b49;
+    --jade-900: #0a3a2a;
+
+    /* Amber — warning */
+    --amber-50: #fdf3e2;
+    --amber-100: #fae6c4;
+    --amber-300: #fbd38d;
+    --amber-400: #f6bc5c;
+    --amber-500: #de9a22;
+    --amber-600: #a96c05;
+    --amber-700: #7c4e02;
+    --amber-900: #2a2113;
+
+    /* Crimson — danger */
+    --crimson-50: #fcecea;
+    --crimson-100: #f9d8d5;
+    --crimson-300: #fca5a5;
+    --crimson-400: #f87171;
+    --crimson-500: #e4483f;
+    --crimson-600: #c03030;
+    --crimson-700: #97231f;
+    --crimson-900: #2c1616;
+
+    /* Absolute anchors used by scrims, glows and composited fills */
+    --black: #000000;
+    --white: #ffffff;
+  }
+
+  /* ── 2. Non-color tokens ─────────────────────────────────────────────────
+     Theme-agnostic. Font stacks reference the `next/font` CSS variables
+     (e.g. --font-fraunces) and degrade to a system stack if not loaded. */
+
+  :root {
+    /* Typefaces */
+    --font-display: var(--font-fraunces, "Fraunces"), "Iowan Old Style", Georgia,
+      "Times New Roman", serif;
+    --font-sans: var(--font-instrument, "Instrument Sans"), ui-sans-serif, system-ui,
+      "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: var(--font-jetbrains, "JetBrains Mono"), ui-monospace, SFMono-Regular,
+      Menlo, Consolas, monospace;
+    --font-arabic: var(--font-plex-arabic, "IBM Plex Sans Arabic"), "Segoe UI",
+      "Noto Sans Arabic", Tahoma, sans-serif;
+
+    /* Weights */
+    --weight-regular: 400;
+    --weight-medium: 500;
+    --weight-semibold: 600;
+    --weight-bold: 700;
+    --weight-black: 800;
+
+    /* Fluid type scale — clamp(min, preferred, max) across a 360px → 1440px
+       viewport, ratio ≈1.2 for text steps and ≈1.25 for display steps. */
+    --step--2: clamp(0.694rem, 0.677rem + 0.074vw, 0.727rem);
+    --step--1: clamp(0.833rem, 0.808rem + 0.111vw, 0.889rem);
+    --step-0: clamp(1rem, 0.972rem + 0.139vw, 1.0625rem);
+    --step-1: clamp(1.2rem, 1.157rem + 0.213vw, 1.296rem);
+    --step-2: clamp(1.44rem, 1.368rem + 0.319vw, 1.583rem);
+    --step-3: clamp(1.728rem, 1.609rem + 0.529vw, 1.953rem);
+    --step-4: clamp(2.074rem, 1.877rem + 0.875vw, 2.441rem);
+    --step-5: clamp(2.488rem, 2.16rem + 1.458vw, 3.052rem);
+    --step-6: clamp(2.986rem, 2.435rem + 2.449vw, 3.815rem);
+    --step-7: clamp(3.583rem, 2.618rem + 4.291vw, 4.768rem);
+    --step-8: clamp(4.3rem, 2.395rem + 8.468vw, 7.45rem);
+    --step-9: clamp(5.16rem, 2.01rem + 14vw, 10.4rem);
+
+    /* Tracking — Arabic must not be letter-spaced (breaks glyph joining). */
+    --tracking-display: -0.03em;
+    --tracking-tight: -0.015em;
+    --tracking-normal: 0em;
+    --tracking-wide: 0.06em;
+    --tracking-eyebrow: 0.14em;
+
+    /* Leading */
+    --leading-display: 1.02;
+    --leading-tight: 1.16;
+    --leading-snug: 1.35;
+    --leading-body: 1.65;
+    --leading-relaxed: 1.75;
+
+    /* Spacing — 4px base, named steps + fluid rhythm tokens */
+    --space-0: 0;
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-7: 1.75rem;
+    --space-8: 2rem;
+    --space-10: 2.5rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+    --space-20: 5rem;
+    --space-24: 6rem;
+    --space-32: 8rem;
+    --space-gutter: clamp(1.25rem, 4vw, 2.5rem);
+    --space-section: clamp(4.5rem, 9vw, 9rem);
+    --space-section-sm: clamp(3rem, 6vw, 5.5rem);
+    --space-stack-xs: clamp(0.5rem, 0.4rem + 0.4vw, 0.75rem);
+    --space-stack-sm: clamp(0.75rem, 0.6rem + 0.7vw, 1.25rem);
+    --space-stack-md: clamp(1.25rem, 1rem + 1.2vw, 2rem);
+    --space-stack-lg: clamp(2rem, 1.5rem + 2.2vw, 3.5rem);
+
+    /* Radii */
+    --radius-2xs: 4px;
+    --radius-xs: 6px;
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+    --radius-2xl: 36px;
+    --radius-pill: 999px;
+    --radius-control: var(--radius-sm);
+    --radius-card: var(--radius-lg);
+    --radius-panel: var(--radius-xl);
+
+    /* Layout */
+    --w-prose: 66ch;
+    --w-content: 72rem;
+    --w-wide: 84rem;
+    --w-ultra: 96rem;
+    --header-h: 4.5rem;
+    --mobile-nav-h: 4.25rem;
+    /* Breakpoints are mirrored in the Tailwind bridge (Part 2):
+       sm 30rem · md 48rem · lg 64rem · xl 80rem · 2xl 96rem · 3xl 112.5rem */
+
+    /* Target sizes — WCAG 2.2 AA (2.5.8) asks for ≥ 24px, we ship ≥ 44px. */
+    --target-min: 2.75rem;
+    --tap-target: 3rem;
+    --control-h-sm: 2.25rem;
+    --control-h-md: 2.75rem;
+    --control-h-lg: 3.25rem;
+
+    /* Z-index scale — one ladder, no magic numbers in components */
+    --z-below: -1;
+    --z-base: 0;
+    --z-raised: 10;
+    --z-sticky: 20;
+    --z-header: 30;
+    --z-drawer: 40;
+    --z-overlay: 50;
+    --z-modal: 60;
+    --z-palette: 70;
+    --z-assistant: 80;
+    --z-toast: 90;
+    --z-cursor: 100;
+
+    /* Focus ring — WCAG 2.2 AA (2.4.11/2.4.13) needs a visible, non-obscured
+       indicator; 2px ring at 2px offset clears adjacent element contrast. */
+    --focus-width: 2px;
+    --focus-offset: 2px;
+    --hairline: 1px;
+
+    /* Motion vocabulary — one easing per intent, one duration per distance.
+       Components pick from these; `lib/motion/` mirrors them for Framer Motion
+       and GSAP so CSS and JS timelines cannot drift apart. */
+    --ease-linear: linear;
+    --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+    --ease-overshoot: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-swift: cubic-bezier(0.4, 0, 0.2, 1);
+    --dur-1: 90ms;
+    --dur-2: 160ms;
+    --dur-3: 240ms;
+    --dur-4: 380ms;
+    --dur-5: 600ms;
+    --dur-6: 900ms;
+    --dur-scene: 1200ms;
+    --stagger-1: 45ms;
+    --stagger-2: 80ms;
+    --stagger-3: 120ms;
+    --distance-xs: 4px;
+    --distance-sm: 8px;
+    --distance-md: 16px;
+    --distance-lg: 32px;
+    --blur-reveal: 8px;
+    --parallax-max: 0.18;
+    --scroll-progress-h: 2px;
+    /* JS reads this to disable transforms/timelines: 1 = full motion, 0 = off. */
+    --motion-scale: 1;
+  }
+
+  /* ── 3. Light theme ──────────────────────────────────────────────────────
+     Editorial daylight: near-white paper, ink type, ultramarine as the only
+     saturated voice. Shadows do the elevation work; borders stay hairline. */
+
+  :root {
+    color-scheme: light;
+
+    /* Surfaces */
+    --bg: var(--ink-25);
+    --bg-subtle: var(--ink-50);
+    --surface: var(--white);
+    --surface-raised: var(--white);
+    --surface-sunken: var(--ink-50);
+    --surface-inverse: var(--ink-900);
+    --fg-on-inverse: #f4f6fa;
+
+    /* Text */
+    --fg: var(--ink-900);
+    --fg-muted: var(--ink-600);
+    --fg-subtle: var(--ink-560);
+    --fg-disabled: var(--ink-400);
+
+    /* Borders — `--border*` are decorative hairlines; `--border-interactive`
+       outlines controls and is audited against 3:1 (WCAG 1.4.11). */
+    --border: var(--ink-200);
+    --border-subtle: var(--ink-100);
+    --border-strong: var(--ink-300);
+    --border-interactive: var(--ink-500);
+    --border-inverse: rgb(255 255 255 / 0.16);
+
+    /* Accent family */
+    --accent-solid: var(--brand-600);
+    --accent-on-solid: var(--white);
+    --accent-text: var(--brand-700);
+    --accent-soft: var(--brand-50);
+    --accent-soft-text: var(--brand-700);
+    --accent-soft-border: var(--brand-100);
+    --accent-hover: var(--brand-700);
+    --accent-glow: color-mix(in srgb, var(--brand-500) 32%, transparent);
+    --accent-underline: color-mix(in srgb, var(--brand-600) 45%, transparent);
+
+    /* Status families: solid / on-solid / text / soft / soft-text */
+    --success-solid: var(--jade-650);
+    --success-on-solid: var(--white);
+    --success-text: var(--jade-700);
+    --success-soft: var(--jade-50);
+    --success-soft-text: var(--jade-700);
+
+    --warning-solid: var(--amber-400);
+    --warning-on-solid: var(--ink-950);
+    --warning-text: var(--amber-700);
+    --warning-soft: var(--amber-50);
+    --warning-soft-text: var(--amber-700);
+
+    --danger-solid: var(--crimson-600);
+    --danger-on-solid: var(--white);
+    --danger-text: var(--crimson-700);
+    --danger-soft: var(--crimson-50);
+    --danger-soft-text: var(--crimson-700);
+
+    --info-solid: var(--brand-600);
+    --info-on-solid: var(--white);
+    --info-text: var(--brand-700);
+    --info-soft: var(--brand-50);
+    --info-soft-text: var(--brand-700);
+
+    /* Focus & selection */
+    --focus-ring: var(--brand-600);
+    --focus-ring-offset: var(--bg);
+    --selection-bg: var(--brand-100);
+    --selection-fg: var(--ink-900);
+
+    /* Overlays, glass, scrims */
+    --scrim: rgb(6 9 16 / 0.55);
+    --glass-tint: rgb(255 255 255 / 0.72);
+    --glass-border: rgb(255 255 255 / 0.6);
+    --glass-ring: rgb(22 27 35 / 0.08);
+    --glass-blur: 14px;
+
+    /* Blueprint / grid decoration (decorative, exempt from contrast rules) */
+    --grid-size: 26px;
+    --grid-size-lg: 104px;
+    --grid-fade: 62%;
+    --grid-line: rgb(70 87 120 / 0.1);
+    --grid-line-strong: rgb(70 87 120 / 0.18);
+    --blueprint-stroke: var(--ink-300);
+    --blueprint-fill: var(--ink-50);
+    --noise-opacity: 0.035;
+
+    /* Diagram theming (skills map, architecture flow, Mermaid) */
+    --diagram-node-bg: var(--white);
+    --diagram-node-fg: var(--ink-800);
+    --diagram-edge: var(--ink-450);
+    --diagram-active: var(--brand-600);
+    --diagram-active-soft: var(--brand-100);
+
+    /* Media treatment — keeps screenshots from glaring in each theme */
+    --media-brightness: 1;
+    --media-saturation: 1;
+    --media-frame: var(--ink-200);
+
+    /* Elevation */
+    --shadow-1: 0 1px 2px rgb(16 24 40 / 0.06), 0 1px 1px rgb(16 24 40 / 0.04);
+    --shadow-2: 0 2px 4px -1px rgb(16 24 40 / 0.06), 0 4px 12px -2px rgb(16 24 40 / 0.08);
+    --shadow-3: 0 12px 24px -8px rgb(16 24 40 / 0.12), 0 4px 8px -4px rgb(16 24 40 / 0.06);
+    --shadow-4: 0 32px 64px -24px rgb(16 24 40 / 0.18), 0 8px 16px -8px rgb(16 24 40 / 0.08);
+    --shadow-inset-hairline: inset 0 1px 0 rgb(255 255 255 / 0.6);
+    --shadow-focus: 0 0 0 var(--focus-width) var(--focus-ring);
+
+    /* Scrollbars */
+    --scrollbar-thumb: var(--ink-300);
+    --scrollbar-thumb-hover: var(--ink-400);
+    --scrollbar-track: transparent;
+  }
+
+  /* ── 4. Dark theme ───────────────────────────────────────────────────────
+     Designed, not inverted: the accent turns luminous (dark text *on* the
+     accent), solids carry ink labels, hairlines replace shadows for depth and
+     media is slightly dimmed so screenshots do not glare. */
+
+  [data-theme="dark"] {
+    color-scheme: dark;
+
+    /* Surfaces */
+    --bg: var(--ink-950);
+    --bg-subtle: var(--ink-1000);
+    --surface: #11161f;
+    --surface-raised: #171d28;
+    --surface-sunken: var(--ink-1000);
+    --surface-inverse: #f4f6fa;
+    --fg-on-inverse: var(--ink-900);
+
+    /* Text */
+    --fg: #f2f5f9;
+    --fg-muted: var(--ink-350);
+    --fg-subtle: var(--ink-450);
+    --fg-disabled: var(--ink-600);
+
+    /* Borders */
+    --border: rgb(255 255 255 / 0.1);
+    --border-subtle: rgb(255 255 255 / 0.06);
+    --border-strong: rgb(255 255 255 / 0.2);
+    --border-interactive: rgb(255 255 255 / 0.4);
+    --border-inverse: rgb(11 15 22 / 0.12);
+
+    /* Accent family */
+    --accent-solid: var(--brand-400);
+    --accent-on-solid: var(--ink-1000);
+    --accent-text: var(--brand-300);
+    --accent-soft: #191e38;
+    --accent-soft-text: var(--brand-200);
+    --accent-soft-border: rgb(122 133 251 / 0.28);
+    --accent-hover: var(--brand-300);
+    --accent-glow: color-mix(in srgb, var(--brand-400) 28%, transparent);
+    --accent-underline: color-mix(in srgb, var(--brand-300) 50%, transparent);
+
+    /* Status families */
+    --success-solid: var(--jade-400);
+    --success-on-solid: var(--ink-1000);
+    --success-text: var(--jade-300);
+    --success-soft: var(--jade-900);
+    --success-soft-text: var(--jade-300);
+
+    --warning-solid: var(--amber-400);
+    --warning-on-solid: var(--ink-1000);
+    --warning-text: var(--amber-400);
+    --warning-soft: var(--amber-900);
+    --warning-soft-text: var(--amber-300);
+
+    --danger-solid: var(--crimson-400);
+    --danger-on-solid: var(--ink-1000);
+    --danger-text: var(--crimson-400);
+    --danger-soft: var(--crimson-900);
+    --danger-soft-text: var(--crimson-300);
+
+    --info-solid: var(--brand-400);
+    --info-on-solid: var(--ink-1000);
+    --info-text: var(--brand-300);
+    --info-soft: #191e38;
+    --info-soft-text: var(--brand-200);
+
+    /* Focus & selection */
+    --focus-ring: var(--brand-300);
+    --focus-ring-offset: var(--bg);
+    --selection-bg: #253069;
+    --selection-fg: #eaf0ff;
+
+    /* Overlays, glass, scrims */
+    --scrim: rgb(3 5 9 / 0.68);
+    --glass-tint: rgb(14 19 28 / 0.62);
+    --glass-border: rgb(255 255 255 / 0.12);
+    --glass-ring: rgb(0 0 0 / 0.4);
+    --glass-blur: 18px;
+
+    /* Blueprint / grid decoration */
+    --grid-size: 26px;
+    --grid-size-lg: 104px;
+    --grid-fade: 58%;
+    --grid-line: rgb(160 180 220 / 0.07);
+    --grid-line-strong: rgb(160 180 220 / 0.13);
+    --blueprint-stroke: rgb(255 255 255 / 0.16);
+    --blueprint-fill: rgb(255 255 255 / 0.04);
+    --noise-opacity: 0.05;
+
+    /* Diagram theming */
+    --diagram-node-bg: #151b26;
+    --diagram-node-fg: #e6ebf3;
+    --diagram-edge: #7c8798;
+    --diagram-active: var(--brand-400);
+    --diagram-active-soft: rgb(122 133 251 / 0.18);
+
+    /* Media treatment */
+    --media-brightness: 0.92;
+    --media-saturation: 0.96;
+    --media-frame: rgb(255 255 255 / 0.1);
+
+    /* Elevation — depth from deep shadow + a 1px top highlight */
+    --shadow-1: 0 1px 2px rgb(0 0 0 / 0.5);
+    --shadow-2: 0 2px 6px -1px rgb(0 0 0 / 0.55), 0 0 0 1px rgb(255 255 255 / 0.04);
+    --shadow-3: 0 16px 32px -12px rgb(0 0 0 / 0.65), 0 1px 0 rgb(255 255 255 / 0.05);
+    --shadow-4: 0 40px 80px -32px rgb(0 0 0 / 0.75), 0 1px 0 rgb(255 255 255 / 0.06);
+    --shadow-inset-hairline: inset 0 1px 0 rgb(255 255 255 / 0.06);
+    --shadow-focus: 0 0 0 var(--focus-width) var(--focus-ring);
+
+    /* Scrollbars */
+    --scrollbar-thumb: rgb(255 255 255 / 0.18);
+    --scrollbar-thumb-hover: rgb(255 255 255 / 0.28);
+    --scrollbar-track: transparent;
+  }
+
+  /* ── 4b. Dark fallback for the pre-hydration / no-JS paint ───────────────
+     The inline <head> script always sets data-theme before first paint, so
+     this block only ever applies when scripting is unavailable. It MUST stay
+     byte-for-byte equivalent to the [data-theme="dark"] block above;
+     `npm run audit:contrast` fails the build if the two drift apart. */
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+
+      --bg: var(--ink-950);
+      --bg-subtle: var(--ink-1000);
+      --surface: #11161f;
+      --surface-raised: #171d28;
+      --surface-sunken: var(--ink-1000);
+      --surface-inverse: #f4f6fa;
+      --fg-on-inverse: var(--ink-900);
+
+      --fg: #f2f5f9;
+      --fg-muted: var(--ink-350);
+      --fg-subtle: var(--ink-450);
+      --fg-disabled: var(--ink-600);
+
+      --border: rgb(255 255 255 / 0.1);
+      --border-subtle: rgb(255 255 255 / 0.06);
+      --border-strong: rgb(255 255 255 / 0.2);
+      --border-interactive: rgb(255 255 255 / 0.4);
+      --border-inverse: rgb(11 15 22 / 0.12);
+
+      --accent-solid: var(--brand-400);
+      --accent-on-solid: var(--ink-1000);
+      --accent-text: var(--brand-300);
+      --accent-soft: #191e38;
+      --accent-soft-text: var(--brand-200);
+      --accent-soft-border: rgb(122 133 251 / 0.28);
+      --accent-hover: var(--brand-300);
+      --accent-glow: color-mix(in srgb, var(--brand-400) 28%, transparent);
+      --accent-underline: color-mix(in srgb, var(--brand-300) 50%, transparent);
+
+      --success-solid: var(--jade-400);
+      --success-on-solid: var(--ink-1000);
+      --success-text: var(--jade-300);
+      --success-soft: var(--jade-900);
+      --success-soft-text: var(--jade-300);
+
+      --warning-solid: var(--amber-400);
+      --warning-on-solid: var(--ink-1000);
+      --warning-text: var(--amber-400);
+      --warning-soft: var(--amber-900);
+      --warning-soft-text: var(--amber-300);
+
+      --danger-solid: var(--crimson-400);
+      --danger-on-solid: var(--ink-1000);
+      --danger-text: var(--crimson-400);
+      --danger-soft: var(--crimson-900);
+      --danger-soft-text: var(--crimson-300);
+
+      --info-solid: var(--brand-400);
+      --info-on-solid: var(--ink-1000);
+      --info-text: var(--brand-300);
+      --info-soft: #191e38;
+      --info-soft-text: var(--brand-200);
+
+      --focus-ring: var(--brand-300);
+      --focus-ring-offset: var(--bg);
+      --selection-bg: #253069;
+      --selection-fg: #eaf0ff;
+
+      --scrim: rgb(3 5 9 / 0.68);
+      --glass-tint: rgb(14 19 28 / 0.62);
+      --glass-border: rgb(255 255 255 / 0.12);
+      --glass-ring: rgb(0 0 0 / 0.4);
+      --glass-blur: 18px;
+
+      --grid-size: 26px;
+      --grid-size-lg: 104px;
+      --grid-fade: 58%;
+      --grid-line: rgb(160 180 220 / 0.07);
+      --grid-line-strong: rgb(160 180 220 / 0.13);
+      --blueprint-stroke: rgb(255 255 255 / 0.16);
+      --blueprint-fill: rgb(255 255 255 / 0.04);
+      --noise-opacity: 0.05;
+
+      --diagram-node-bg: #151b26;
+      --diagram-node-fg: #e6ebf3;
+      --diagram-edge: #7c8798;
+      --diagram-active: var(--brand-400);
+      --diagram-active-soft: rgb(122 133 251 / 0.18);
+
+      --media-brightness: 0.92;
+      --media-saturation: 0.96;
+      --media-frame: rgb(255 255 255 / 0.1);
+
+      --shadow-1: 0 1px 2px rgb(0 0 0 / 0.5);
+      --shadow-2: 0 2px 6px -1px rgb(0 0 0 / 0.55), 0 0 0 1px rgb(255 255 255 / 0.04);
+      --shadow-3: 0 16px 32px -12px rgb(0 0 0 / 0.65), 0 1px 0 rgb(255 255 255 / 0.05);
+      --shadow-4: 0 40px 80px -32px rgb(0 0 0 / 0.75), 0 1px 0 rgb(255 255 255 / 0.06);
+      --shadow-inset-hairline: inset 0 1px 0 rgb(255 255 255 / 0.06);
+      --shadow-focus: 0 0 0 var(--focus-width) var(--focus-ring);
+
+      --scrollbar-thumb: rgb(255 255 255 / 0.18);
+      --scrollbar-thumb-hover: rgb(255 255 255 / 0.28);
+      --scrollbar-track: transparent;
+    }
+  }
+
+  /* ── 5. Direction & script adaptivity ────────────────────────────────────
+     `--dir-sign` lets motion mirror in RTL (slides, arrows, progress bars)
+     without branching in JavaScript: translateX(calc(100% * var(--dir-sign))).
+     Arabic also needs its own leading, zero tracking and a real Arabic face. */
+
+  [dir="ltr"] {
+    --dir-sign: 1;
+  }
+
+  [dir="rtl"] {
+    --dir-sign: -1;
+  }
+
+  :lang(ar) {
+    --font-display: var(--font-arabic);
+    --font-sans: var(--font-arabic);
+    --tracking-display: 0em;
+    --tracking-tight: 0em;
+    --tracking-normal: 0em;
+    --tracking-wide: 0.02em;
+    --tracking-eyebrow: 0.06em;
+    --leading-display: 1.28;
+    --leading-tight: 1.42;
+    --leading-snug: 1.6;
+    --leading-body: 1.9;
+    --leading-relaxed: 2;
+    /* Mono, kbd and URLs stay Latin even inside Arabic copy. */
+    --font-code: var(--font-mono);
+  }
+
+  :root {
+    --font-code: var(--font-mono);
+    /* Numeric rendering. Arabic-Indic digits are a *formatting* concern
+       (`Intl.NumberFormat` with the `ar-u-nu-arab` locale, see
+       lib/i18n/format.ts) because CSS cannot substitute digit systems; these
+       tokens only control figure alignment inside Latin contexts. */
+    --numeric-tabular: "tnum" 1, "lnum" 1;
+    --numeric-proportional: "pnum" 1, "lnum" 1;
+    --numeric-oldstyle: "onum" 1;
+  }
+
+  /* ── 6. Reduced motion & degraded capability ─────────────────────────────
+     The preference collapses the token vocabulary itself, so both CSS and
+     JS-driven motion (which reads --motion-scale) stop at the source. */
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --dur-1: 1ms;
+      --dur-2: 1ms;
+      --dur-3: 1ms;
+      --dur-4: 1ms;
+      --dur-5: 1ms;
+      --dur-6: 1ms;
+      --dur-scene: 1ms;
+      --stagger-1: 0ms;
+      --stagger-2: 0ms;
+      --stagger-3: 0ms;
+      --distance-xs: 0px;
+      --distance-sm: 0px;
+      --distance-md: 0px;
+      --distance-lg: 0px;
+      --blur-reveal: 0px;
+      --parallax-max: 0;
+      --motion-scale: 0;
+      --ease-overshoot: var(--ease-standard);
+    }
+
+    /* Belt and braces: an animation authored outside the token system is
+       collapsed too, so no component can violate the preference by accident. */
+    *,
+    *::before,
+    *::after {
+      animation-duration: 1ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 1ms !important;
+      transition-delay: 0ms !important;
+      scroll-behavior: auto !important;
+    }
+
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+      animation: none !important;
+    }
+  }
+
+  /* Translucent surfaces become solid for visitors who ask for that. */
+  @media (prefers-reduced-transparency: reduce) {
+    :root {
+      --glass-tint: var(--surface);
+      --glass-blur: 0px;
+    }
+  }
+
+  /* Forced-colours / high-contrast: strengthen boundaries, drop decoration. */
+  @media (prefers-contrast: more) {
+    :root {
+      --border: var(--ink-500);
+      --border-strong: var(--ink-700);
+      --border-interactive: var(--ink-700);
+      --fg-subtle: var(--ink-600);
+      --grid-line: rgb(70 87 120 / 0.24);
+      --grid-line-strong: rgb(70 87 120 / 0.38);
+    }
+
+    [data-theme="dark"] {
+      --border: rgb(255 255 255 / 0.35);
+      --border-strong: rgb(255 255 255 / 0.5);
+      --border-interactive: rgb(255 255 255 / 0.6);
+      --fg-subtle: var(--ink-350);
+      --grid-line: rgb(160 180 220 / 0.2);
+      --grid-line-strong: rgb(160 180 220 / 0.34);
+    }
+  }
+}

@@ -1,0 +1,44 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Next.js
+/.next/
+/out/
+next-env.d.ts
+.eslintcache
+
+# OpenNext / Cloudflare Workers
+/.open-next/
+/.wrangler/
+cloudflare-env.d.ts
+.dev.vars
+.dev.vars.*
+worker-configuration.d.ts
+
+# testing & reports
+/coverage/
+/playwright-report/
+/test-results/
+/blob-report/
+.playwright/
+
+# misc
+.DS_Store
+Thumbs.db
+*.pem
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.vercel
+*.tsbuildinfo
+/artifacts/
+
+# env files — only .env.example is committed
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+!.env.example

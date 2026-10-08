@@ -1,0 +1,155 @@
+{
+  "meta": {
+    "home": {
+      "title": "{name} · {role}",
+      "description": "{tagline}"
+    },
+    "notFound": {
+      "title": "Page not found",
+      "description": "That page does not exist."
+    }
+  },
+  "nav": {
+    "work": "Work",
+    "about": "About",
+    "skills": "Stack",
+    "experience": "Experience",
+    "services": "Services",
+    "process": "Process",
+    "architecture": "Architecture",
+    "notes": "Notes",
+    "contact": "Contact",
+    "main": "Main navigation",
+    "mobile": "Section shortcuts",
+    "menu": "Menu",
+    "close": "Close"
+  },
+  "availability": {
+    "label": "Status",
+    "open": "Active",
+    "limited": "Limited availability",
+    "booked": "Fully booked",
+    "from": "Available from {date}",
+    "timezone": "Local time {time}"
+  },
+  "hero": {
+    "eyebrow": "{role}",
+    "terminalCommand": "~ whoami",
+    "terminalStatus": "status",
+    "terminalStack": "stack",
+    "terminalBased": "based",
+    "terminalHint": "Production software built with clean architecture and robust data pipelines.",
+    "ctaPrimary": "View selected work",
+    "ctaSecondary": "Get in touch",
+    "scroll": "Scroll to explore",
+    "portraitAlt": "Portrait of {name}"
+  },
+  "work": {
+    "eyebrow": "Selected Work",
+    "title": "Shipped applications & software systems",
+    "intro": "Production Flutter mobile applications and web systems deployed for users and businesses in Algeria.",
+    "liveBadge": "Production Ready",
+    "viewProject": "View project",
+    "viewOnLinkedIn": "LinkedIn post",
+    "allFilter": "All Apps",
+    "screenshots": "{count, plural, one {# screenshot} other {# screenshots}}",
+    "openGallery": "View screenshots",
+    "featured": "Featured Project",
+    "techStack": "Tech Stack"
+  },
+  "about": {
+    "eyebrow": "About",
+    "title": "Engineering that survives contact with production.",
+    "numbersTitle": "By the numbers",
+    "languagesTitle": "Working languages",
+    "portraitPlaceholder": "Add your portrait to /public/images",
+    "storyLabel": "Story"
+  },
+  "skills": {
+    "eyebrow": "Stack",
+    "title": "The tools behind the work",
+    "intro": "Six areas, with the context that matters: what I build with each, and how deep it goes.",
+    "tablistLabel": "Skill categories",
+    "panelLabel": "{category} skills",
+    "proficiency": "Proficiency",
+    "proficiencyScaleLabel": "{level} out of 5",
+    "levels": {
+      "1": "Aware",
+      "2": "Working",
+      "3": "Confident",
+      "4": "Advanced",
+      "5": "Deep"
+    },
+    "experience": "{count, plural, =0 {No years recorded} one {# year} other {# years}}",
+    "highlighted": "Core"
+  },
+  "services": {
+    "eyebrow": "Services",
+    "title": "Ways we can work together",
+    "intro": "Each engagement is scoped in writing before it starts, with deliverables and dates you can hold me to.",
+    "deliverables": "What you get",
+    "timeline": "Typical timeline",
+    "engagement": "Engagement",
+    "investment": "From",
+    "request": "Request this service",
+    "requestHint": "Opens the brief form with this service selected.",
+    "featured": "Most requested",
+    "scopeNote": "Every engagement starts with a written scope: deliverables, dates, and what is explicitly out of scope."
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Let's build something that lasts.",
+    "intro": "Tell me what you are building and what is in the way. If I am not the right fit, I will say so and point you somewhere better.",
+    "emailCta": "Email me",
+    "copyEmail": "Copy email address",
+    "emailCopied": "Email address copied",
+    "responseTime": "I reply within one business day.",
+    "elsewhere": "Elsewhere"
+  },
+  "footer": {
+    "sections": "Sections",
+    "elsewhere": "Elsewhere",
+    "settings": "Preferences",
+    "builtWith": "Built with",
+    "architectureLink": "How this site is built",
+    "backToTop": "Back to top",
+    "rights": "© {year} {name}. All rights reserved.",
+    "placeholderNotice": "Placeholder content — replace it in src/content."
+  },
+  "theme": {
+    "label": "Theme",
+    "system": "System",
+    "light": "Light",
+    "dark": "Dark",
+    "toggle": "Switch theme",
+    "announce": "Theme set to {mode}"
+  },
+  "language": {
+    "label": "Language",
+    "toggle": "Change language",
+    "announce": "Language set to {language}"
+  },
+  "numerals": {
+    "label": "Numerals",
+    "latn": "0123",
+    "arab": "٠١٢٣",
+    "announce": "Numerals set to {style}"
+  },
+  "a11y": {
+    "skipToContent": "Skip to content",
+    "external": "opens in a new tab",
+    "currentSection": "Current section",
+    "backHome": "Back to home"
+  },
+  "common": {
+    "present": "Present",
+    "now": "now",
+    "years": "years",
+    "loading": "Loading…"
+  },
+  "notFound": {
+    "title": "This page is not here",
+    "body": "The link may be outdated, or the page may not exist in this language yet.",
+    "cta": "Back to home"
+  }
+}

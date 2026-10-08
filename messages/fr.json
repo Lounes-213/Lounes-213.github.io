@@ -1,0 +1,155 @@
+{
+  "meta": {
+    "home": {
+      "title": "{name} · {role}",
+      "description": "{tagline}"
+    },
+    "notFound": {
+      "title": "Page introuvable",
+      "description": "Cette page n'existe pas."
+    }
+  },
+  "nav": {
+    "work": "Projets",
+    "about": "À propos",
+    "skills": "Stack",
+    "experience": "Parcours",
+    "services": "Services",
+    "process": "Méthode",
+    "architecture": "Architecture",
+    "notes": "Notes",
+    "contact": "Contact",
+    "main": "Navigation principale",
+    "mobile": "Accès rapide aux sections",
+    "menu": "Menu",
+    "close": "Fermer"
+  },
+  "availability": {
+    "label": "Statut",
+    "open": "Actif",
+    "limited": "Disponibilité limitée",
+    "booked": "Complet pour le moment",
+    "from": "Disponible à partir du {date}",
+    "timezone": "Heure locale {time}"
+  },
+  "hero": {
+    "eyebrow": "{role}",
+    "terminalCommand": "~ whoami",
+    "terminalStatus": "statut",
+    "terminalStack": "stack",
+    "terminalBased": "basé à",
+    "terminalHint": "Logiciels performants conçus avec une architecture propre et moderne.",
+    "ctaPrimary": "Voir les projets",
+    "ctaSecondary": "Me contacter",
+    "scroll": "Faites défiler",
+    "portraitAlt": "Portrait de {name}"
+  },
+  "work": {
+    "eyebrow": "Réalisations",
+    "title": "Applications livrées & systèmes logiciels",
+    "intro": "Applications mobiles Flutter et plateformes web en production déployées pour des entreprises et utilisateurs en Algérie.",
+    "liveBadge": "Prêt pour la production",
+    "viewProject": "Voir le projet",
+    "viewOnLinkedIn": "Publication LinkedIn",
+    "allFilter": "Toutes les apps",
+    "screenshots": "{count, plural, one {# capture} other {# captures}}",
+    "openGallery": "Voir les captures",
+    "featured": "Projet à la une",
+    "techStack": "Technologies"
+  },
+  "about": {
+    "eyebrow": "À propos",
+    "title": "Une ingénierie qui survit au contact de la production.",
+    "numbersTitle": "En chiffres",
+    "languagesTitle": "Langues de travail",
+    "portraitPlaceholder": "Ajoutez votre portrait dans /public/images",
+    "storyLabel": "Parcours"
+  },
+  "skills": {
+    "eyebrow": "Stack",
+    "title": "Les outils derrière le travail",
+    "intro": "Six domaines, avec le contexte qui compte : ce que je construis avec chacun et jusqu'où je vais.",
+    "tablistLabel": "Catégories de compétences",
+    "panelLabel": "Compétences {category}",
+    "proficiency": "Maîtrise",
+    "proficiencyScaleLabel": "{level} sur 5",
+    "levels": {
+      "1": "Notions",
+      "2": "Opérationnel",
+      "3": "À l'aise",
+      "4": "Avancé",
+      "5": "Approfondi"
+    },
+    "experience": "{count, plural, =0 {Aucune année renseignée} one {# an} other {# ans}}",
+    "highlighted": "Cœur de métier"
+  },
+  "services": {
+    "eyebrow": "Services",
+    "title": "Façons de travailler ensemble",
+    "intro": "Chaque mission est cadrée par écrit avant de commencer, avec des livrables et des dates vérifiables.",
+    "deliverables": "Ce que vous obtenez",
+    "timeline": "Durée typique",
+    "engagement": "Modalité",
+    "investment": "À partir de",
+    "request": "Demander ce service",
+    "requestHint": "Ouvre le formulaire de brief avec ce service présélectionné.",
+    "featured": "Le plus demandé",
+    "scopeNote": "Chaque mission commence par un périmètre écrit : livrables, dates, et ce qui est explicitement hors périmètre."
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Construisons quelque chose qui dure.",
+    "intro": "Décrivez-moi ce que vous construisez et ce qui bloque. Si je ne suis pas la bonne personne, je vous le dirai et vous orienterai utilement.",
+    "emailCta": "M'écrire",
+    "copyEmail": "Copier l'adresse e-mail",
+    "emailCopied": "Adresse e-mail copiée",
+    "responseTime": "Je réponds en un jour ouvré.",
+    "elsewhere": "Ailleurs"
+  },
+  "footer": {
+    "sections": "Sections",
+    "elsewhere": "Ailleurs",
+    "settings": "Préférences",
+    "builtWith": "Construit avec",
+    "architectureLink": "Comment ce site est construit",
+    "backToTop": "Haut de page",
+    "rights": "© {year} {name}. Tous droits réservés.",
+    "placeholderNotice": "Contenu d'exemple — à remplacer dans src/content."
+  },
+  "theme": {
+    "label": "Thème",
+    "system": "Système",
+    "light": "Clair",
+    "dark": "Sombre",
+    "toggle": "Changer de thème",
+    "announce": "Thème réglé sur {mode}"
+  },
+  "language": {
+    "label": "Langue",
+    "toggle": "Changer de langue",
+    "announce": "Langue réglée sur {language}"
+  },
+  "numerals": {
+    "label": "Chiffres",
+    "latn": "0123",
+    "arab": "٠١٢٣",
+    "announce": "Chiffres réglés sur {style}"
+  },
+  "a11y": {
+    "skipToContent": "Aller au contenu",
+    "external": "s'ouvre dans un nouvel onglet",
+    "currentSection": "Section actuelle",
+    "backHome": "Retour à l'accueil"
+  },
+  "common": {
+    "present": "Aujourd'hui",
+    "now": "maintenant",
+    "years": "ans",
+    "loading": "Chargement…"
+  },
+  "notFound": {
+    "title": "Cette page n'est pas ici",
+    "body": "Le lien est peut-être obsolète, ou la page n'existe pas encore dans cette langue.",
+    "cta": "Retour à l'accueil"
+  }
+}
