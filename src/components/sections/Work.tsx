@@ -1,19 +1,18 @@
 import { getTranslations } from "next-intl/server";
-import { Reveal } from "@/components/motion/Reveal";
-import { WorkGallery } from "@/components/sections/WorkGallery";
 import { Badge } from "@/components/ui/Badge";
 import { Section } from "@/components/ui/Section";
+import { reels } from "@/content/reels";
 import type { Locale } from "@/lib/i18n/routing";
-import { fetchLinkyData } from "@/lib/linky";
+import { WorkList } from "./WorkList";
 
 type WorkProps = { locale: Locale };
 
 /**
- * Work: Real-world mobile and web applications shipped by Lounès Benseba.
+ * Work: Real-world mobile and web applications shipped by Lounès Benseba,
+ * presented through high-fidelity vertical video Reels with direct playback.
  */
-export async function Work({ locale: _locale }: WorkProps) {
+export async function Work({ locale }: WorkProps) {
   const t = await getTranslations("work");
-  const linkyData = await fetchLinkyData("lounes_owner");
 
   return (
     <Section
@@ -26,14 +25,23 @@ export async function Work({ locale: _locale }: WorkProps) {
       aside={
         <div className="flex items-center gap-2">
           <Badge variant="accent" dot>
-            {linkyData.portfolio.length} Production Apps
+            {reels.length} Projects & Video Demos
           </Badge>
         </div>
       }
     >
-      <Reveal animateOnView>
-        <WorkGallery projects={linkyData.portfolio} />
-      </Reveal>
+      <WorkList
+        projects={reels}
+        locale={locale}
+        tWatch={t("watchOnInstagram")}
+        tMute={t("mute")}
+        tUnmute={t("unmute")}
+        tPlay={t("play")}
+        tPause={t("pause")}
+        tAll={t("all")}
+        tMobile={t("mobile")}
+        tWeb={t("web")}
+      />
     </Section>
   );
 }

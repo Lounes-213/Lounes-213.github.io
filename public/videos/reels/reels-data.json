@@ -1,0 +1,50 @@
+[
+  {
+    "id": "reel-1",
+    "title": "Video by lounes.7i",
+    "description": "Knowledge is now just a tap away! 📚✨\nI’m proud to introduce my latest Flutter project: a Digital Gateway for educational",
+    "duration": 0,
+    "videoSrc": "/videos/reels/reel-1.mp4",
+    "originalUrl": "https://www.instagram.com/reel/DYKh5Sqsq-D/"
+  },
+  {
+    "id": "reel-2",
+    "title": "Video by lounes.7i",
+    "description": "I am excited to share my latest personal project built with Flutter & Dart: Golden Goal ⚽🔥\n\nGolden Goal is a full-featur",
+    "duration": 0,
+    "videoSrc": "/videos/reels/reel-2.mp4",
+    "originalUrl": "https://www.instagram.com/reel/DdZVdfpg3A3/"
+  },
+  {
+    "id": "reel-4",
+    "title": "Video by lounes.7i",
+    "description": "I am excited to share my latest personal project built entirely with Flutter & Dart: CUBE 3 App 🏢🎓🚀\n\nCUBE 3 App is a sma",
+    "duration": 0,
+    "videoSrc": "/videos/reels/reel-4.mp4",
+    "originalUrl": "https://www.instagram.com/reel/DdwbGVtABHQ/"
+  },
+  {
+    "id": "reel-5",
+    "title": "Video by lounes.7i",
+    "description": "I’m excited to share one of my latest web projects: Ascent Club — نادي رفعة العلمي والثقافي 🚀\n\nAscent Club is a modern d",
+    "duration": 0,
+    "videoSrc": "/videos/reels/reel-5.mp4",
+    "originalUrl": "https://www.instagram.com/reel/Dd7Ygdmg2MG/"
+  },
+  {
+    "id": "reel-6",
+    "title": "Video by lounes.7i",
+    "description": "⭐ Why settle for a traditional resume when modern portfolios bring skills to life !!\n\n#portfolio #webdevelopment #websta",
+    "duration": 0,
+    "videoSrc": "/videos/reels/reel-6.mp4",
+    "originalUrl": "https://www.instagram.com/reel/DeQIoWBM4Da/"
+  },
+  {
+    "id": "reel-7",
+    "title": "Video by lounes.7i",
+    "description": "I’m excited to share one of my latest web projects: Volagro dz ..\n \nVolagro Dz is a modern digital platform designed to ",
+    "duration": 0,
+    "videoSrc": "/videos/reels/reel-7.mp4",
+    "originalUrl": "https://www.instagram.com/reel/DeShTg0gDNx/"
+  }
+]

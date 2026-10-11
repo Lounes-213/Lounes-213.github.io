@@ -202,3 +202,40 @@ export const FileText = ({ size = 18, ...props }: IconProps) => (
     <polyline points="10 9 9 9 8 9" />
   </svg>
 );
+
+export const Play = ({ size = 18, ...props }: IconProps) => (
+  <svg {...base(size)} {...props}>
+    <polygon points="6 4 19 12 6 20 6 4" fill="currentColor" stroke="none" />
+  </svg>
+);
+
+export const Pause = ({ size = 18, ...props }: IconProps) => (
+  <svg {...base(size)} {...props}>
+    <rect x="6" y="4" width="4" height="16" rx="1" fill="currentColor" stroke="none" />
+    <rect x="14" y="4" width="4" height="16" rx="1" fill="currentColor" stroke="none" />
+  </svg>
+);
+
+export const Volume2 = ({ size = 18, ...props }: IconProps) => (
+  <svg {...base(size)} {...props}>
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14" />
+  </svg>
+);
+
+export const VolumeX = ({ size = 18, ...props }: IconProps) => (
+  <svg {...base(size)} {...props}>
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+    <line x1="22" y1="9" x2="16" y2="15" />
+    <line x1="16" y1="9" x2="22" y2="15" />
+  </svg>
+);
+
+export const Instagram = ({ size = 18, ...props }: IconProps) => (
+  <svg {...base(size)} {...props}>
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+  </svg>
+);
+

@@ -1,222 +1,179 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import Image from "next/image";
-import { profile } from "@/content/profile";
-import type { Locale } from "@/lib/i18n/routing";
+import { cn } from "@/lib/utils/cn";
 
+/**
+ * Modern splash screen featuring 4 dots moving along an inverted 8 (infinity / lemniscate ∞)
+ * curved path, styled with the application's signature brand colors.
+ */
 type SplashScreenProps = {
-  locale?: Locale;
+  locale?: string;
 };
 
-export function SplashScreen({ locale = "en" }: SplashScreenProps) {
-  const [isVisible, setIsVisible] = useState(true);
-  const [progress, setProgress] = useState(0);
-  const reducedMotion = useReducedMotion();
+export function SplashScreen({ locale: _locale }: SplashScreenProps = {}) {
+  const [mounted, setMounted] = useState(true);
+  const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
-    if (reducedMotion) {
-      setIsVisible(false);
-      return;
-    }
+    // Show splash screen briefly on initial load then fade out smoothly
+    const timer = setTimeout(() => {
+      setFadeOut(true);
+    }, 1500);
 
-    // Fast progress fill sequence (0% to 100% in ~900ms)
-    const startTime = Date.now();
-    const duration = 950;
+    const removeTimer = setTimeout(() => {
+      setMounted(false);
+    }, 2100);
 
-    const interval = setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      const nextProgress = Math.min(100, Math.round((elapsed / duration) * 100));
-      setProgress(nextProgress);
-
-      if (elapsed >= duration) {
-        clearInterval(interval);
-        // Quick pause at 100% before triggering exit animation
-        const timer = setTimeout(() => {
-          setIsVisible(false);
-        }, 220);
-        return () => clearTimeout(timer);
-      }
-    }, 25);
-
-    return () => clearInterval(interval);
-  }, [reducedMotion]);
-
-  // Lock body scroll while splash screen is visible
-  useEffect(() => {
-    if (isVisible) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
     return () => {
-      document.body.style.overflow = "";
+      clearTimeout(timer);
+      clearTimeout(removeTimer);
     };
-  }, [isVisible]);
+  }, []);
 
-  const roleText =
-    locale === "ar"
-      ? "مهندس برمجيات · مطور تطبيقات الموبايل وفولستاك"
-      : locale === "fr"
-      ? "Ingénieur Logiciel · Développeur Mobile & Full-Stack"
-      : "Software Engineer · Mobile & Full-Stack";
+  if (!mounted) return null;
 
-  const statusText =
-    progress >= 100
-      ? locale === "ar"
-        ? "جاهز"
-        : locale === "fr"
-        ? "Prêt"
-        : "Ready"
-      : locale === "ar"
-      ? "جاري التحميل..."
-      : locale === "fr"
-      ? "Chargement..."
-      : "Initializing...";
+  // Path data for a horizontal figure-8 (infinity symbol ∞)
+  const infinityPath = "M 100 50 C 125 15, 175 15, 175 50 C 175 85, 125 85, 100 50 C 75 15, 25 15, 25 50 C 25 85, 75 85, 100 50 Z";
 
   return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.div
-          key="splash-screen"
-          initial={{ opacity: 1 }}
-          exit={{
-            opacity: 0,
-            scale: 1.03,
-            filter: "blur(12px)",
-            transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] },
-          }}
-          onClick={() => setIsVisible(false)}
-          title="Click to skip"
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-bg/95 backdrop-blur-2xl cursor-pointer select-none"
-          role="status"
-          aria-live="polite"
-        >
-          {/* Ambient luminous glow spots */}
-          <div className="pointer-events-none absolute inset-0 overflow-hidden">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 0.6, scale: 1.1 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="absolute -top-24 left-1/2 -translate-x-1/2 size-96 rounded-full bg-gradient-to-tr from-accent/25 via-sky-400/20 to-indigo-500/15 blur-3xl"
-            />
-            <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1f2937_1px,transparent_1px)] [background-size:24px_24px] opacity-20" />
-          </div>
-
-          <div className="relative z-10 flex flex-col items-center px-4 max-w-sm w-full text-center">
-            {/* Center Monogram / Portrait with rotating neon glow border */}
-            <motion.div
-              initial={{ scale: 0.7, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
-              className="relative mb-5"
-            >
-              {/* Outer pulsing halo */}
-              <div className="absolute -inset-2.5 rounded-full bg-gradient-to-tr from-accent via-sky-400 to-indigo-500 blur-md opacity-40 animate-pulse" />
-
-              {/* Glowing ring */}
-              <div className="relative size-20 sm:size-24 rounded-full p-1 bg-gradient-to-tr from-accent via-sky-400 to-indigo-500 shadow-2xl flex items-center justify-center">
-                <div className="relative size-full rounded-full overflow-hidden bg-surface flex items-center justify-center border-2 border-surface">
-                  {profile.portrait.image ? (
-                    <Image
-                      src={profile.portrait.image}
-                      alt={profile.name}
-                      fill
-                      sizes="96px"
-                      className="object-cover"
-                      priority
-                    />
-                  ) : (
-                    <span className="font-display font-black text-2xl sm:text-3xl bg-gradient-to-br from-fg via-fg to-accent bg-clip-text text-transparent">
-                      {profile.initials}
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              {/* Fast active badge indicator */}
-              <span className="absolute bottom-1 end-1 size-4 rounded-full bg-surface border-2 border-bg flex items-center justify-center shadow-sm">
-                <span className="size-2 rounded-full bg-success animate-ping" />
-              </span>
-            </motion.div>
-
-            {/* Engineer Name with stagger reveal */}
-            <motion.h2
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-fg"
-            >
-              <span className="bg-gradient-to-r from-fg via-fg to-accent/90 bg-clip-text">
-                {profile.name}
-              </span>
-            </motion.h2>
-
-            {/* Subtitle / Role */}
-            <motion.p
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-1 font-mono text-xs sm:text-[13px] font-semibold text-accent tracking-wide"
-            >
-              {roleText}
-            </motion.p>
-
-            {/* Fast Tech Chips */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.35, delay: 0.35 }}
-              className="mt-3.5 flex flex-wrap items-center justify-center gap-1.5 font-mono text-[10px] text-fg-subtle"
-            >
-              <span className="rounded-md border border-border-subtle bg-surface-sunken/80 px-2 py-0.5">Flutter</span>
-              <span className="rounded-md border border-border-subtle bg-surface-sunken/80 px-2 py-0.5">Dart</span>
-              <span className="rounded-md border border-border-subtle bg-surface-sunken/80 px-2 py-0.5">Next.js</span>
-              <span className="rounded-md border border-border-subtle bg-surface-sunken/80 px-2 py-0.5">FastAPI</span>
-            </motion.div>
-
-            {/* Progress bar container */}
-            <motion.div
-              initial={{ opacity: 0, scaleX: 0.9 }}
-              animate={{ opacity: 1, scaleX: 1 }}
-              transition={{ duration: 0.3, delay: 0.3 }}
-              className="mt-6 w-52 sm:w-60"
-            >
-              {/* Progress bar track */}
-              <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-border-subtle/80 border border-border/40">
-                <motion.div
-                  className="h-full bg-gradient-to-r from-accent via-sky-400 to-indigo-500 rounded-full transition-all duration-75 ease-out"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
-
-              {/* Progress percentage & status */}
-              <div className="mt-2 flex items-center justify-between font-mono text-[11px] text-fg-subtle">
-                <span className="flex items-center gap-1.5">
-                  <span
-                    className={`size-1.5 rounded-full ${
-                      progress >= 100 ? "bg-success" : "bg-accent animate-pulse"
-                    }`}
-                  />
-                  <span>{statusText}</span>
-                </span>
-                <span className="font-semibold text-fg/80 tabular-nums">{progress}%</span>
-              </div>
-            </motion.div>
-
-            {/* Fast dismiss micro hint */}
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.5 }}
-              transition={{ delay: 0.6, duration: 0.3 }}
-              className="mt-6 font-mono text-[9px] uppercase tracking-wider text-fg-subtle"
-            >
-              {locale === "ar" ? "اضغط للتخطي" : locale === "fr" ? "Cliquer pour passer" : "Click anywhere to enter"}
-            </motion.span>
-          </div>
-        </motion.div>
+    <div
+      aria-hidden="true"
+      className={cn(
+        "fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-bg transition-opacity duration-500 ease-out",
+        fadeOut ? "opacity-0 pointer-events-none" : "opacity-100",
       )}
-    </AnimatePresence>
+    >
+      {/* Background radial glow */}
+      <div className="absolute size-[340px] rounded-full bg-accent/15 blur-[90px] pointer-events-none" />
+
+      {/* Infinity Loader Container */}
+      <div className="relative flex items-center justify-center">
+        {/* SVG Track & Glow */}
+        <svg
+          viewBox="0 0 200 100"
+          className="h-28 w-56 overflow-visible"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <linearGradient id="infinityGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="var(--brand-400, #7a85fb)" stopOpacity="0.3" />
+              <stop offset="50%" stopColor="var(--accent-solid, #5462f0)" stopOpacity="0.6" />
+              <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.3" />
+            </linearGradient>
+            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+          </defs>
+
+          {/* Faint track background */}
+          <path
+            d={infinityPath}
+            stroke="currentColor"
+            strokeWidth="2"
+            className="text-border-subtle/40"
+          />
+
+          {/* Glowing track accent */}
+          <path
+            d={infinityPath}
+            stroke="url(#infinityGlow)"
+            strokeWidth="2.5"
+            strokeDasharray="6 14"
+            className="opacity-70 animate-pulse"
+          />
+        </svg>
+
+        {/* 4 Animated Dots moving along the infinity curve */}
+        {/* Dot 1: Brand Blue */}
+        <div
+          className="infinity-dot infinity-dot-1"
+          style={{
+            offsetPath: `path('${infinityPath}')`,
+          }}
+        />
+
+        {/* Dot 2: Electric Cyan */}
+        <div
+          className="infinity-dot infinity-dot-2"
+          style={{
+            offsetPath: `path('${infinityPath}')`,
+          }}
+        />
+
+        {/* Dot 3: Ultramarine Indigo */}
+        <div
+          className="infinity-dot infinity-dot-3"
+          style={{
+            offsetPath: `path('${infinityPath}')`,
+          }}
+        />
+
+        {/* Dot 4: Accent Violet */}
+        <div
+          className="infinity-dot infinity-dot-4"
+          style={{
+            offsetPath: `path('${infinityPath}')`,
+          }}
+        />
+      </div>
+
+      {/* Monogram / Brand Name */}
+      <div className="mt-8 flex flex-col items-center gap-2">
+        <span className="text-xs font-mono font-semibold uppercase tracking-[0.3em] text-fg-muted/80">
+          Lounès Benseba
+        </span>
+        <div className="flex items-center gap-1.5">
+          <span className="size-1.5 rounded-full bg-accent animate-ping" />
+          <span className="text-[11px] font-mono text-fg-subtle">portfolio</span>
+        </div>
+      </div>
+
+      <style jsx>{`
+        .infinity-dot {
+          position: absolute;
+          width: 11px;
+          height: 11px;
+          border-radius: 9999px;
+          offset-rotate: auto;
+          animation: moveInfinity 2.8s linear infinite;
+        }
+
+        .infinity-dot-1 {
+          background-color: #5462f0;
+          box-shadow: 0 0 12px 3px rgba(84, 98, 240, 0.8), 0 0 4px #5462f0;
+          animation-delay: 0s;
+        }
+
+        .infinity-dot-2 {
+          background-color: #38bdf8;
+          box-shadow: 0 0 12px 3px rgba(56, 189, 248, 0.8), 0 0 4px #38bdf8;
+          animation-delay: -0.7s;
+        }
+
+        .infinity-dot-3 {
+          background-color: #7a85fb;
+          box-shadow: 0 0 12px 3px rgba(122, 133, 251, 0.8), 0 0 4px #7a85fb;
+          animation-delay: -1.4s;
+        }
+
+        .infinity-dot-4 {
+          background-color: #c084fc;
+          box-shadow: 0 0 12px 3px rgba(192, 132, 252, 0.8), 0 0 4px #c084fc;
+          animation-delay: -2.1s;
+        }
+
+        @keyframes moveInfinity {
+          0% {
+            offset-distance: 0%;
+          }
+          100% {
+            offset-distance: 100%;
+          }
+        }
+      `}</style>
+    </div>
   );
 }
