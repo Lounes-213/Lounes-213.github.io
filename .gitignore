@@ -34,6 +34,7 @@ Thumbs.db
 .vercel
 *.tsbuildinfo
 /artifacts/
+Untitled-*
 
 # env files — only .env.example is committed
 .env
