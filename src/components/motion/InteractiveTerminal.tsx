@@ -19,12 +19,12 @@ interface CommandEntry {
 }
 
 const PREDEFINED_COMMANDS = [
-  { id: "whoami", label: "whoami", desc: "Identity & Core Engineering" },
-  { id: "skills", label: "skills", desc: "Tech Stack & Architecture" },
-  { id: "education", label: "education", desc: "USTHB Degrees & Academic Path" },
-  { id: "projects", label: "projects", desc: "Production Apps & Highlights" },
-  { id: "contact", label: "contact", desc: "Direct Links & Inquiries" },
-  { id: "clear", label: "clear", desc: "Reset Terminal" },
+  { id: "whoami", label: "whoami", desc: "Identity & Background" },
+  { id: "skills", label: "skills", desc: "Technical Stack" },
+  { id: "education", label: "education", desc: "USTHB Academic Timeline" },
+  { id: "projects", label: "projects", desc: "Shipped Projects & Showcase" },
+  { id: "contact", label: "contact", desc: "Direct Channels & Socials" },
+  { id: "clear", label: "clear", desc: "Reset Console" },
 ] as const;
 
 const IconEnter = () => (
@@ -68,103 +68,80 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
   const typingTimerRef = useRef<NodeJS.Timeout | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Helper to generate content for commands based on locale and actual profile
+  // Helper to generate clean output without any tacky '====' lines
+  // whoami only has identity/degrees/location/status (no core languages)
+  // projects only has real project names and what they do (no tech stacks)
   const getCommandOutput = (cmd: string): string => {
     const trimmed = cmd.trim().toLowerCase();
 
     switch (trimmed) {
       case "whoami":
         return [
-          `==================================================`,
-          ` USER PROFILE : LOUNÈS BENSEBA`,
-          `==================================================`,
-          ` • Role        : Software Engineer`,
-          ` • Degrees     : ${
+          `• user      : ${profile.name}`,
+          `• role      : Software Engineer`,
+          `• education : ${
             locale === "ar"
-              ? "BSc Informatique & MSc Bioinformatique (USTHB)"
+              ? "ليسانس إعلام آلي · ماستر بيومعلوماتية (USTHB)"
               : locale === "fr"
-              ? "Licence Informatique & Master Bioinformatique (USTHB)"
-              : "BSc Computer Science & MSc Bioinformatics (USTHB)"
+              ? "Licence Informatique · Master Bioinformatique (USTHB)"
+              : "BSc Computer Science · MSc Bioinformatics (USTHB)"
           }`,
-          ` • Location    : ${pick(profile.location, locale)}`,
-          ` • Status      : Active · Available for high-impact projects`,
-          ``,
-          ` [CORE LANGUAGES & ENGINEERING]`,
-          ` • Languages   : Flutter, Dart, Python, Java, Next.js, FastAPI, R, TypeScript`,
-          ` • Architecture: Clean Architecture, SOLID Principles, BLoC, Riverpod`,
-          ` • Engineering : Scalable Mobile Apps, High-Throughput APIs, Data Pipelines`,
-          ` • Code Quality: 100% Type-Safe, Robust Error Handling, Clean UI/UX`,
+          `• location  : ${pick(profile.location, locale)}`,
+          `• status    : Active · Shipping production software`,
         ].join("\n");
 
       case "skills":
       case "stack":
         return [
-          `==================================================`,
-          ` TECHNICAL STACK & ARSENAL`,
-          `==================================================`,
-          ` • Mobile Engineering : Flutter (Expert), Dart, Riverpod, BLoC, SQLite, Firebase`,
-          ` • Backend Systems    : Python (FastAPI, Flask), Next.js, Node.js, Java, REST APIs`,
-          ` • Data & Analytics   : Python (Pandas, NumPy, Scikit-learn), R (Bioinformatics)`,
-          ` • DevOps & Tooling   : Docker, Git & GitHub Actions, Linux CLI, Supabase`,
-          ` • Architecture       : Clean Architecture, Offline-First, Microservices, CI/CD`,
+          `• mobile    : Flutter (Expert Architecture), Dart, Riverpod, BLoC, SQLite`,
+          `• backend   : Python (FastAPI, Flask), Next.js, Node.js, Java, REST APIs`,
+          `• data / ai : Python (Pandas, NumPy, Scikit-learn), R (Bioinformatics Pipelines)`,
+          `• devops    : Docker, Git & GitHub Actions, Linux CLI, Supabase, Firebase`,
         ].join("\n");
 
       case "education":
       case "degrees":
         return [
-          `==================================================`,
-          ` ACADEMIC FOUNDATIONS (USTHB)`,
-          `==================================================`,
-          ` [2024 - Present] Master 2 (MSc) in Bioinformatics`,
-          `   - USTHB Algiers`,
-          `   - Computational modeling, algorithmic genomics, advanced data structures`,
-          ``,
-          ` [2021 - 2024] Bachelor's Degree (BSc) in Computer Science`,
-          `   - USTHB Algiers`,
-          `   - Software engineering, operating systems, networking, database systems`,
+          `• [2024 - Present] Master 2 (MSc) in Bioinformatics — USTHB`,
+          `  - Algorithmic modeling, computational genomics & advanced data structures`,
+          `• [2021 - 2024] Bachelor's Degree (BSc) in Computer Science — USTHB`,
+          `  - Core foundations in Software Engineering, OOP, Systems & Networks`,
         ].join("\n");
 
       case "projects":
       case "work":
         return [
-          `==================================================`,
-          ` FEATURED PRODUCTION DELIVERIES`,
-          `==================================================`,
-          ` 1. [Gym App]              -> Flutter production mobile app with clean architecture`,
-          ` 2. [Kamir Gym Management] -> Mobile & cloud operations suite for fitness hubs`,
-          ` 3. [Store Link-in-Bio]    -> Ultra-fast creator bio link & catalog showcase platform`,
+          `• Maktabat Al-I'tissam : Digital reading & educational e-learning library platform`,
+          `• Golden Goal          : Real-time football match tracker, live scores & league manager`,
+          `• Kamir Gym            : Fitness club companion, memberships & workout management suite`,
+          `• CUBE 3 (Bab Ezzouar) : Smart campus & student residence services portal`,
+          `• Ascent Club          : Scientific & cultural events, workshops & member hub`,
+          `• Volagro DZ           : Enterprise digital platform for agro-industry & livestock`,
           ``,
-          ` ➔ Tip: Scroll down to 'Selected Work' or click the video demos below!`,
+          `➔ Scrolling down to live video demos...`,
         ].join("\n");
 
       case "contact":
       case "email":
         return [
-          `==================================================`,
-          ` DIRECT CONTACT & REACHOUT`,
-          `==================================================`,
-          ` • Email    : bensebalounes7@gmail.com`,
-          ` • LinkedIn : https://www.linkedin.com/in/lounes-benseba-a07549393/`,
-          ` • GitHub   : https://github.com/Lounes-213`,
-          ` • Socials  : @lounes.7i (Instagram, TikTok, Facebook)`,
-          ` • Location : Algiers, Algeria (Available worldwide remotely)`,
+          `• email    : bensebalounes7@gmail.com`,
+          `• linkedin : https://www.linkedin.com/in/lounes-benseba-a07549393/`,
+          `• github   : https://github.com/Lounes-213`,
+          `• socials  : @lounes.7i (Instagram, TikTok, Facebook)`,
         ].join("\n");
 
       case "help":
         return [
-          `==================================================`,
-          ` TERMINAL COMMANDS MANUAL`,
-          `==================================================`,
-          ` • whoami    : Identity, background & core engineering languages`,
-          ` • skills    : Full technical stack & architecture practices`,
-          ` • education : USTHB degrees and academic timeline`,
-          ` • projects  : Shipped production apps and case studies`,
-          ` • contact   : Direct email, socials and professional channels`,
-          ` • clear     : Clear the terminal console`,
+          `• whoami    : Identity, education & status`,
+          `• skills    : Technical stack & tools`,
+          `• education : Academic degrees from USTHB`,
+          `• projects  : Shipped projects & showcases (auto-scrolls to demos)`,
+          `• contact   : Email, LinkedIn, GitHub & socials`,
+          `• clear     : Clear the terminal output`,
         ].join("\n");
 
       default:
-        return `bash: command not found: "${cmd}". Type 'help' or click an option above.`;
+        return `bash: command not found: "${cmd}". Type 'help' or select an option above.`;
     }
   };
 
@@ -173,6 +150,16 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
+  };
+
+  // Smooth scroll to #work section when projects command is triggered
+  const triggerScrollToWork = () => {
+    setTimeout(() => {
+      const workElem = document.getElementById("work");
+      if (workElem) {
+        workElem.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 450);
   };
 
   // Execute a command with typewriter character-by-character animation
@@ -186,6 +173,11 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
       setIsTyping(false);
       setInputVal("");
       return;
+    }
+
+    // Auto-scroll down to projects section if project command is executed
+    if (trimmed.toLowerCase() === "projects" || trimmed.toLowerCase() === "work") {
+      triggerScrollToWork();
     }
 
     // If currently typing, finish previous instantly
@@ -216,7 +208,7 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
 
     // Typewriter effect settings (fast, realistic terminal typewriter speed)
     let charIndex = 0;
-    const stepSize = fullOutput.length > 250 ? 3 : 2;
+    const stepSize = fullOutput.length > 220 ? 3 : 2;
     const speedMs = 12;
 
     typingTimerRef.current = setInterval(() => {
@@ -275,11 +267,19 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
   return (
     <div className="well relative overflow-hidden p-5 sm:p-6 shadow-2 border border-border rounded-2xl h-full flex flex-col justify-between">
       <div>
-        {/* Card Header matching previous styling */}
+        {/* Card Header matching previous styling with green accents and window controls */}
         <div className="flex items-center justify-between gap-2 text-fg-subtle border-b border-border-subtle pb-3 select-none">
           <div className="flex items-center gap-2">
-            <Terminal size={16} className="text-accent shrink-0" />
-            <span className="font-mono text-caption ltr-island font-semibold text-fg">~ whoami</span>
+            {/* Window Traffic Lights */}
+            <div className="flex items-center gap-1.5 me-1">
+              <span className="size-2.5 rounded-full bg-[#ff5f56] inline-block" />
+              <span className="size-2.5 rounded-full bg-[#ffbd2e] inline-block" />
+              <span className="size-2.5 rounded-full bg-[#27c93f] inline-block" />
+            </div>
+            <Terminal size={15} className="text-emerald-500 dark:text-emerald-400 shrink-0" />
+            <span className="font-mono text-caption ltr-island font-semibold text-fg">
+              ~ whoami
+            </span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -292,8 +292,9 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
                 <IconTrash />
               </button>
             )}
-            <span className="font-mono text-[11px] text-fg-subtle">
-              bash · workstation
+            <span className="inline-flex items-center gap-1.5 font-mono text-[10px] text-emerald-500 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+              <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              bash · active
             </span>
           </div>
         </div>
@@ -301,7 +302,7 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
         {/* Predefined Clickable Command Options / Pills */}
         <div className="my-3 flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 select-none">
           <span className="text-[10px] font-mono text-fg-subtle flex items-center gap-1 me-1 shrink-0">
-            <Sparkle size={11} className="text-accent" />
+            <Sparkle size={11} className="text-emerald-500 dark:text-emerald-400" />
             <span className="hidden sm:inline">Options:</span>
           </span>
           {PREDEFINED_COMMANDS.map((item) => {
@@ -312,8 +313,8 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
                 onClick={() => handleChipClick(item.id)}
                 className={`rounded-lg px-2.5 py-1 font-mono text-[10px] sm:text-[11px] transition-all whitespace-nowrap border ${
                   isActive
-                    ? "bg-accent/15 border-accent text-accent font-semibold shadow-xs"
-                    : "bg-surface border-border-subtle text-fg-muted hover:text-fg hover:border-accent/40 hover:bg-surface-elevated"
+                    ? "bg-emerald-500/15 border-emerald-500/40 text-emerald-600 dark:text-emerald-400 font-semibold shadow-xs"
+                    : "bg-surface border-border-subtle text-fg-muted hover:text-emerald-600 dark:hover:text-emerald-400 hover:border-emerald-500/30 hover:bg-surface-elevated"
                 }`}
                 title={item.desc}
               >
@@ -327,21 +328,24 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
         <div
           ref={containerRef}
           onClick={() => inputRef.current?.focus()}
-          className="min-h-[220px] max-h-[290px] overflow-y-auto font-mono text-caption pr-1 space-y-3 cursor-text selection:bg-accent/20"
+          className="min-h-[220px] max-h-[290px] overflow-y-auto font-mono text-caption pr-1 space-y-3 cursor-text selection:bg-emerald-500/20"
         >
           {entries.map((entry) => (
             <div key={entry.id} className="space-y-1.5 leading-relaxed">
-              {/* Command line */}
-              <div className="flex items-center gap-1.5 text-accent font-semibold text-caption select-none">
-                <span className="text-fg-subtle font-normal">$</span>
-                <span>{entry.command}</span>
+              {/* Command line with green developer identity */}
+              <div className="flex items-center gap-1.5 font-semibold text-caption select-none">
+                <span className="text-emerald-500 dark:text-emerald-400">lounes@engineer</span>
+                <span className="text-fg-subtle">:</span>
+                <span className="text-sky-500 dark:text-sky-400">~</span>
+                <span className="text-fg-subtle">$</span>
+                <span className="text-fg ml-1">{entry.command}</span>
               </div>
 
               {/* Typewriter Output Content */}
-              <pre className="font-mono text-[11px] sm:text-xs text-fg whitespace-pre-wrap pl-3 border-l-2 border-accent/40 bg-surface-sunken/60 py-2 rounded-r">
+              <pre className="font-mono text-[11px] sm:text-xs text-fg whitespace-pre-wrap pl-3 border-l-2 border-emerald-500/50 bg-surface-sunken/60 py-2 rounded-r">
                 {entry.displayedOutput}
                 {!entry.isCompleted && (
-                  <span className="inline-block w-1.5 h-3 bg-accent ml-0.5 animate-pulse align-middle" />
+                  <span className="inline-block w-1.5 h-3 bg-emerald-400 ml-0.5 animate-pulse align-middle" />
                 )}
               </pre>
             </div>
@@ -350,8 +354,11 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
 
         {/* Interactive CLI Input Line */}
         <form onSubmit={handleSubmit} className="mt-3 pt-2.5 border-t border-border-subtle flex items-center gap-2">
-          <div className="flex items-center gap-1.5 text-accent font-mono text-caption shrink-0 select-none font-bold">
-            <span>$</span>
+          <div className="flex items-center gap-1.5 font-mono text-caption shrink-0 select-none font-bold">
+            <span className="text-emerald-500 dark:text-emerald-400">lounes@engineer</span>
+            <span className="text-fg-subtle">:</span>
+            <span className="text-sky-500 dark:text-sky-400">~</span>
+            <span className="text-fg-subtle">$</span>
           </div>
 
           <div className="relative flex-1 flex items-center">
@@ -360,21 +367,21 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
               type="text"
               value={inputVal}
               onChange={(e) => setInputVal(e.target.value)}
-              placeholder={isTyping ? "executing..." : "type command (skills, education, contact...)"}
+              placeholder={isTyping ? "..." : "type command (skills, projects, education...)"}
               disabled={isTyping}
               className="w-full bg-transparent border-none outline-none font-mono text-caption text-fg placeholder:text-fg-subtle/50 focus:ring-0 p-0"
               autoComplete="off"
               spellCheck="false"
             />
-            {/* Terminal Cursor */}
-            <span className="inline-block w-1.5 h-3.5 bg-accent animate-pulse ml-1 shrink-0" />
+            {/* Terminal Blinking Cursor in Green */}
+            <span className="inline-block w-1.5 h-3.5 bg-emerald-400 animate-pulse ml-1 shrink-0" />
           </div>
 
           {inputVal.trim() && (
             <button
               type="submit"
               disabled={isTyping}
-              className="text-fg-subtle hover:text-accent p-1 transition-colors shrink-0"
+              className="text-fg-subtle hover:text-emerald-400 p-1 transition-colors shrink-0"
               title="Execute"
             >
               <IconEnter />
@@ -386,7 +393,7 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
       {/* Card Footer Hint matching previous styling */}
       <p className="mt-3 border-t border-border-subtle pt-2.5 text-caption text-fg-subtle flex items-center justify-between">
         <span>Production software built with clean architecture &amp; data pipelines.</span>
-        <span className="font-mono text-[10px] text-fg-subtle/80">Active</span>
+        <span className="font-mono text-[10px] text-emerald-500 dark:text-emerald-400 font-semibold">Active</span>
       </p>
     </div>
   );
