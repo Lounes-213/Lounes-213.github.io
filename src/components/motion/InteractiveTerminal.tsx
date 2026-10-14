@@ -117,8 +117,6 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
           `• CUBE 3 (Bab Ezzouar) : Smart campus & student residence services portal`,
           `• Ascent Club          : Scientific & cultural events, workshops & member hub`,
           `• Volagro DZ           : Enterprise digital platform for agro-industry & livestock`,
-          ``,
-          `➔ Scrolling down to live video demos...`,
         ].join("\n");
 
       case "contact":
@@ -135,7 +133,7 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
           `• whoami    : Identity, education & status`,
           `• skills    : Technical stack & tools`,
           `• education : Academic degrees from USTHB`,
-          `• projects  : Shipped projects & showcases (auto-scrolls to demos)`,
+          `• projects  : Shipped projects & showcases`,
           `• contact   : Email, LinkedIn, GitHub & socials`,
           `• clear     : Clear the terminal output`,
         ].join("\n");
@@ -152,16 +150,6 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
     }
   };
 
-  // Smooth scroll to #work section when projects command is triggered
-  const triggerScrollToWork = () => {
-    setTimeout(() => {
-      const workElem = document.getElementById("work");
-      if (workElem) {
-        workElem.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }, 450);
-  };
-
   // Execute a command with typewriter character-by-character animation
   const runCommand = (cmdString: string) => {
     const trimmed = cmdString.trim();
@@ -173,11 +161,6 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
       setIsTyping(false);
       setInputVal("");
       return;
-    }
-
-    // Auto-scroll down to projects section if project command is executed
-    if (trimmed.toLowerCase() === "projects" || trimmed.toLowerCase() === "work") {
-      triggerScrollToWork();
     }
 
     // If currently typing, finish previous instantly
