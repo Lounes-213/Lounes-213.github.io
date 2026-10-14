@@ -3,30 +3,29 @@
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils/cn";
 
-/**
- * Modern minimalist splash screen:
- * - Clean solid background (no extra background glow/blobs)
- * - 4 luminous dots smoothly dancing along the lemniscate/infinity path in the center of the screen
- * - No background 8-shape outline or SVG track
- * - Clean developer typography underneath
- */
 type SplashScreenProps = {
   locale?: string;
 };
 
+/**
+ * Clean developer splash screen:
+ * - Centered engineer brand typography
+ * - 3 sleek dots underneath that animate one by one (staggered pulse/wave)
+ * - Smooth entrance into the portfolio
+ */
 export function SplashScreen({ locale: _locale }: SplashScreenProps = {}) {
   const [mounted, setMounted] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
-    // Show splash animation on initial load then fade out smoothly
+    // Show 3-dot staggered animation, then smoothly fade out
     const timer = setTimeout(() => {
       setFadeOut(true);
-    }, 1400);
+    }, 1250);
 
     const removeTimer = setTimeout(() => {
       setMounted(false);
-    }, 1950);
+    }, 1750);
 
     return () => {
       clearTimeout(timer);
@@ -36,9 +35,6 @@ export function SplashScreen({ locale: _locale }: SplashScreenProps = {}) {
 
   if (!mounted) return null;
 
-  // Path data for a centered horizontal figure-8 (infinity symbol ∞)
-  const infinityPath = "M 100 50 C 125 15, 175 15, 175 50 C 175 85, 125 85, 100 50 C 75 15, 25 15, 25 50 C 25 85, 75 85, 100 50 Z";
-
   return (
     <div
       aria-hidden="true"
@@ -47,88 +43,55 @@ export function SplashScreen({ locale: _locale }: SplashScreenProps = {}) {
         fadeOut ? "opacity-0 pointer-events-none" : "opacity-100",
       )}
     >
-      <div className="flex flex-col items-center justify-center -translate-y-2">
-        {/* Animated Dots Container - 200x100 box centered on screen */}
-        <div className="relative h-[100px] w-[200px]">
-          {/* Dot 1: Brand Blue */}
-          <div
-            className="infinity-dot infinity-dot-1"
-            style={{ offsetPath: `path('${infinityPath}')` }}
-          />
+      <div className="flex flex-col items-center justify-center text-center px-4">
+        {/* Clean Engineer Branding */}
+        <h1 className="font-display text-base sm:text-lg font-bold tracking-[0.3em] uppercase text-fg">
+          Lounès Benseba
+        </h1>
+        <p className="mt-1 font-mono text-[11px] sm:text-xs text-fg-subtle tracking-wider uppercase">
+          Software &amp; Mobile Engineer
+        </p>
 
-          {/* Dot 2: Electric Cyan */}
-          <div
-            className="infinity-dot infinity-dot-2"
-            style={{ offsetPath: `path('${infinityPath}')` }}
-          />
-
-          {/* Dot 3: Ultramarine Indigo */}
-          <div
-            className="infinity-dot infinity-dot-3"
-            style={{ offsetPath: `path('${infinityPath}')` }}
-          />
-
-          {/* Dot 4: Neon Violet */}
-          <div
-            className="infinity-dot infinity-dot-4"
-            style={{ offsetPath: `path('${infinityPath}')` }}
-          />
-        </div>
-
-        {/* Clean Developer Typography (Only text kept) */}
-        <div className="mt-4 flex flex-col items-center gap-1.5">
-          <span className="text-xs font-mono font-semibold uppercase tracking-[0.3em] text-fg-muted/90">
-            Lounès Benseba
-          </span>
-          <div className="flex items-center gap-1.5">
-            <span className="size-1.5 rounded-full bg-accent animate-ping" />
-            <span className="text-[11px] font-mono text-fg-subtle">portfolio</span>
-          </div>
+        {/* 3 Staggered Loading Dots that animate one by one */}
+        <div className="mt-6 flex items-center justify-center gap-2.5">
+          <span className="splash-dot splash-dot-1" />
+          <span className="splash-dot splash-dot-2" />
+          <span className="splash-dot splash-dot-3" />
         </div>
       </div>
 
       <style jsx>{`
-        .infinity-dot {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 12px;
-          height: 12px;
+        .splash-dot {
+          width: 9px;
+          height: 9px;
           border-radius: 9999px;
-          offset-rotate: auto;
-          animation: moveInfinity 2.6s linear infinite;
+          background-color: var(--accent-solid, #0ea5e9);
+          box-shadow: 0 0 10px 1px rgba(var(--accent-rgb, 14, 165, 233), 0.4);
+          animation: dotPulse 1.2s infinite ease-in-out;
         }
 
-        .infinity-dot-1 {
-          background-color: #5462f0;
-          box-shadow: 0 0 14px 4px rgba(84, 98, 240, 0.85);
+        .splash-dot-1 {
           animation-delay: 0s;
         }
 
-        .infinity-dot-2 {
-          background-color: #38bdf8;
-          box-shadow: 0 0 14px 4px rgba(56, 189, 248, 0.85);
-          animation-delay: -0.65s;
+        .splash-dot-2 {
+          animation-delay: 0.2s;
         }
 
-        .infinity-dot-3 {
-          background-color: #7a85fb;
-          box-shadow: 0 0 14px 4px rgba(122, 133, 251, 0.85);
-          animation-delay: -1.3s;
+        .splash-dot-3 {
+          animation-delay: 0.4s;
         }
 
-        .infinity-dot-4 {
-          background-color: #c084fc;
-          box-shadow: 0 0 14px 4px rgba(192, 132, 252, 0.85);
-          animation-delay: -1.95s;
-        }
-
-        @keyframes moveInfinity {
-          0% {
-            offset-distance: 0%;
+        @keyframes dotPulse {
+          0%, 80%, 100% {
+            transform: scale(0.6);
+            opacity: 0.25;
+            box-shadow: 0 0 4px 0px rgba(var(--accent-rgb, 14, 165, 233), 0.2);
           }
-          100% {
-            offset-distance: 100%;
+          40% {
+            transform: scale(1.3);
+            opacity: 1;
+            box-shadow: 0 0 14px 3px rgba(var(--accent-rgb, 14, 165, 233), 0.85);
           }
         }
       `}</style>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState, type CSSProperties, type MouseEvent, type TouchEvent, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties, type MouseEvent, type ReactNode } from "react";
 import { cn } from "@/lib/utils/cn";
 
 type Card3DProps = {
@@ -16,15 +16,10 @@ type Card3DProps = {
 };
 
 /**
- * Card3D: High-performance 3D tilt component with physical depth,
- * dynamic glare lighting sheen, realistic 3D elevation shadows,
- * and full touch-screen mobile 3D interaction.
- *
- * Inner elements can use:
- * - `translate-z-10` (+10px 3D depth)
- * - `translate-z-20` (+20px 3D depth)
- * - `translate-z-30` (+30px 3D depth)
- * to physically pop out of the card surface in true 3D perspective!
+ * Card3D:
+ * - Desktop: Tactile 3D tilt perspective with mouse tracking and dynamic glare sheen.
+ * - Mobile: 3D tilt is disabled; cards levitate gently up and down in the air
+ *   with an ultra-smooth, tranquil float (like an airplane hovering softly).
  */
 export function Card3D({
   children,
@@ -38,17 +33,30 @@ export function Card3D({
   depth = true,
 }: Card3DProps) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
   const [style, setStyle] = useState<CSSProperties>({
     transform: `perspective(${perspective}px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`,
     transition: "transform 400ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1)",
   });
+
   const [glareStyle, setGlareStyle] = useState<CSSProperties>({
     opacity: 0,
     background: "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 80%)",
   });
 
+  // Detect mobile view / touch-only devices
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 768px), (hover: none)");
+    const updateMode = () => setIsMobile(media.matches);
+    updateMode();
+    media.addEventListener("change", updateMode);
+    return () => media.removeEventListener("change", updateMode);
+  }, []);
+
   const applyTilt = useCallback(
     (clientX: number, clientY: number) => {
+      if (isMobile) return;
       const card = cardRef.current;
       if (!card) return;
 
@@ -84,10 +92,11 @@ export function Card3D({
         });
       }
     },
-    [maxTilt, perspective, scale, glare, glareMaxOpacity],
+    [isMobile, maxTilt, perspective, scale, glare, glareMaxOpacity],
   );
 
   const resetTilt = useCallback(() => {
+    if (isMobile) return;
     setStyle({
       transform: `perspective(${perspective}px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`,
       boxShadow: "none",
@@ -100,41 +109,36 @@ export function Card3D({
         transition: "opacity 350ms ease-out",
       }));
     }
-  }, [perspective, glare]);
+  }, [isMobile, perspective, glare]);
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     applyTilt(e.clientX, e.clientY);
   };
 
-  const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
-    const touch = e.touches[0];
-    if (touch) {
-      applyTilt(touch.clientX, touch.clientY);
-    }
-  };
-
   return (
     <div
-      className={cn("relative perspective-[1000px] select-none", containerClassName)}
+      className={cn(
+        "relative select-none",
+        !isMobile && "perspective-[1000px]",
+        isMobile && "animate-levitate-soft",
+        containerClassName,
+      )}
       onMouseMove={handleMouseMove}
       onMouseLeave={resetTilt}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={resetTilt}
-      onTouchCancel={resetTilt}
     >
       <div
         ref={cardRef}
-        style={style}
+        style={!isMobile ? style : undefined}
         className={cn(
           "relative h-full w-full transform-gpu",
-          depth && "transform-style-3d",
+          !isMobile && depth && "transform-style-3d",
           className,
         )}
       >
         {children}
 
-        {/* 3D Dynamic Glare Sheen Reflection */}
-        {glare && (
+        {/* 3D Dynamic Glare Sheen Reflection (Desktop only) */}
+        {!isMobile && glare && (
           <div
             aria-hidden="true"
             style={glareStyle}

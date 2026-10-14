@@ -145,16 +145,6 @@ export function ThreeDTechOrb({ className, size }: ThreeDTechOrbProps) {
       mouseY = y * 2;
     };
 
-    const handleTouchMove = (e: TouchEvent) => {
-      const touch = e.touches[0];
-      if (!touch) return;
-      const rect = container.getBoundingClientRect();
-      const x = (touch.clientX - rect.left) / rect.width - 0.5;
-      const y = (touch.clientY - rect.top) / rect.height - 0.5;
-      mouseX = x * 2.5;
-      mouseY = y * 2.5;
-    };
-
     const handleWindowMouseMove = (e: MouseEvent) => {
       // Gentle parallax when moving mouse across the entire window
       const x = (e.clientX / window.innerWidth - 0.5) * 2;
@@ -165,7 +155,6 @@ export function ThreeDTechOrb({ className, size }: ThreeDTechOrbProps) {
 
     window.addEventListener("mousemove", handleWindowMouseMove, { passive: true });
     container.addEventListener("mousemove", handleMouseMove, { passive: true });
-    container.addEventListener("touchmove", handleTouchMove, { passive: true });
 
     // IntersectionObserver to pause rendering when offscreen
     const observer = new IntersectionObserver(
@@ -224,7 +213,6 @@ export function ThreeDTechOrb({ className, size }: ThreeDTechOrbProps) {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener("mousemove", handleWindowMouseMove);
       container.removeEventListener("mousemove", handleMouseMove);
-      container.removeEventListener("touchmove", handleTouchMove);
       observer.disconnect();
       resizeObserver.disconnect();
       if (container.contains(renderer.domElement)) {
