@@ -7,7 +7,6 @@ import { CvLanguagesCard } from "@/components/motion/CvLanguagesCard";
 import { CreativeFloatingBlobs } from "@/components/motion/CreativeFloatingBlobs";
 import { PointerGlow } from "@/components/motion/PointerGlow";
 import { Reveal } from "@/components/motion/Reveal";
-import { ThreeDTechOrb } from "@/components/motion/ThreeDTechOrb";
 import { ButtonLink } from "@/components/ui/Button";
 import { profile } from "@/content/profile";
 import { pick } from "@/content/schema";
@@ -184,57 +183,126 @@ export async function Hero({ locale }: HeroProps) {
             </Card3D>
           </Reveal>
 
-          {/* Whoami Terminal Card with 3D Interactive WebGL Orb */}
+          {/* Whoami Developer Terminal Card */}
           <Reveal direction="right" delay={0.25} animateOnView className="h-full">
-            <Card3D maxTilt={7} scale={1.015} glare={true} glareMaxOpacity={0.15} className="h-full">
-              <div className="well relative overflow-hidden p-5 sm:p-6 shadow-2 border border-border rounded-2xl h-full flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center justify-between gap-2 text-fg-subtle border-b border-border-subtle pb-3">
-                    <div className="flex items-center gap-2">
-                      <Terminal size={16} />
-                      <span className="font-mono text-caption ltr-island">{t("terminalCommand")}</span>
-                    </div>
-                    <span className="font-mono text-[11px] text-fg-subtle">
-                      node::core_v2
-                    </span>
+            <Card3D maxTilt={6} scale={1.015} glare={true} glareMaxOpacity={0.12} className="h-full">
+              <div className="rounded-2xl border border-border bg-surface-elevated/95 shadow-2 overflow-hidden flex flex-col h-full backdrop-blur-md">
+                {/* Authentic PC Terminal Window Header / Title Bar */}
+                <div className="flex items-center justify-between px-4 py-2.5 border-b border-border/80 bg-surface-sunken/90 select-none">
+                  {/* Traffic Light Window Controls */}
+                  <div className="flex items-center gap-1.5">
+                    <span className="size-3 rounded-full bg-[#ff5f56] border border-[#e0443e]/80 inline-block shadow-xs" />
+                    <span className="size-3 rounded-full bg-[#ffbd2e] border border-[#dea123]/80 inline-block shadow-xs" />
+                    <span className="size-3 rounded-full bg-[#27c93f] border border-[#1aab29]/80 inline-block shadow-xs" />
                   </div>
 
-                  {/* Interactive Three.js 3D WebGL Tech Orb */}
-                  <div className="my-3 flex flex-col items-center justify-center relative overflow-hidden rounded-xl bg-surface-sunken/50 border border-border-subtle/80 py-2">
-                    <ThreeDTechOrb size={170} className="w-[170px] h-[170px] cursor-grab active:cursor-grabbing" />
+                  {/* Window Title */}
+                  <div className="flex items-center gap-1.5 font-mono text-[11px] sm:text-xs text-fg-subtle font-medium">
+                    <Terminal size={13} className="text-accent shrink-0" />
+                    <span>lounes@workstation:~</span>
                   </div>
 
-                  <dl className="mt-3 flex flex-col gap-2.5 font-mono text-caption">
-                    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                      <dt className="w-20 shrink-0 text-fg-subtle">{t("terminalStatus")}</dt>
-                      <dd className="ltr-island text-success-text font-semibold">Active · Full-Stack &amp; Mobile</dd>
-                    </div>
-                    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                      <dt className="w-20 shrink-0 text-fg-subtle">{t("terminalBased")}</dt>
-                      <dd className="text-fg">{pick(profile.location, locale)}</dd>
-                    </div>
-                    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                      <dt className="w-20 shrink-0 text-fg-subtle">degrees</dt>
-                      <dd className="text-fg font-medium">
-                        {locale === "ar"
-                          ? "ليسانس إعلام آلي · ماستر بيومعلوماتية (USTHB)"
-                          : locale === "fr"
-                          ? "Licence Informatique · Master Bioinformatique (USTHB)"
-                          : "BSc Computer Science · MSc Bioinformatics (USTHB)"}
-                      </dd>
-                    </div>
-                    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                      <dt className="w-20 shrink-0 text-fg-subtle">{t("terminalStack")}</dt>
-                      <dd className="text-fg-muted ltr-island">
-                        Flutter, Dart, Python, Java, Next.js, FastAPI, R
-                      </dd>
-                    </div>
-                  </dl>
+                  {/* Window Info Tag */}
+                  <span className="font-mono text-[10px] text-fg-subtle/80 bg-surface px-1.5 py-0.5 rounded border border-border-subtle">
+                    bash · 80x24
+                  </span>
                 </div>
 
-                <p className="mt-4 border-t border-border-subtle pt-3 text-caption text-fg-subtle">
-                  {t("terminalHint")}
-                </p>
+                {/* PC Terminal Console Content */}
+                <div className="p-4 sm:p-5 font-mono text-xs flex-1 flex flex-col justify-between space-y-4">
+                  <div className="space-y-3">
+                    {/* Command 1: whoami */}
+                    <div>
+                      <div className="flex items-center gap-2 select-none">
+                        <span className="text-emerald-500 dark:text-emerald-400 font-bold">lounes@engineer</span>
+                        <span className="text-fg-subtle">:</span>
+                        <span className="text-sky-400 font-bold">~</span>
+                        <span className="text-fg-subtle">$</span>
+                        <span className="text-fg font-semibold">whoami --details</span>
+                      </div>
+
+                      {/* Monospace System Specifications & Output */}
+                      <div className="mt-2.5 space-y-1.5 pl-3 border-l-2 border-accent/40 text-[11px] sm:text-xs">
+                        <div className="flex flex-wrap items-baseline gap-x-2">
+                          <span className="text-sky-400 font-semibold w-20 shrink-0">user:</span>
+                          <span className="text-fg font-medium">{profile.name}</span>
+                        </div>
+                        <div className="flex flex-wrap items-baseline gap-x-2">
+                          <span className="text-sky-400 font-semibold w-20 shrink-0">role:</span>
+                          <span className="text-emerald-500 dark:text-emerald-400 font-medium">Software Engineer</span>
+                        </div>
+                        <div className="flex flex-wrap items-baseline gap-x-2">
+                          <span className="text-sky-400 font-semibold w-20 shrink-0">location:</span>
+                          <span className="text-fg-muted">{pick(profile.location, locale)}</span>
+                        </div>
+                        <div className="flex flex-wrap items-baseline gap-x-2">
+                          <span className="text-sky-400 font-semibold w-20 shrink-0">education:</span>
+                          <span className="text-fg-muted">
+                            {locale === "ar"
+                              ? "ليسانس إعلام آلي · ماستر بيومعلوماتية (USTHB)"
+                              : locale === "fr"
+                              ? "Licence Informatique · Master Bioinformatique (USTHB)"
+                              : "BSc Computer Science · MSc Bioinformatics (USTHB)"}
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap items-baseline gap-x-2">
+                          <span className="text-sky-400 font-semibold w-20 shrink-0">stack:</span>
+                          <span className="text-fg-muted">Flutter, Dart, Python, Java, Next.js, FastAPI, R</span>
+                        </div>
+                        <div className="flex flex-wrap items-baseline gap-x-2">
+                          <span className="text-sky-400 font-semibold w-20 shrink-0">status:</span>
+                          <span className="inline-flex items-center gap-1.5 text-emerald-500 dark:text-emerald-400 font-medium">
+                            <span className="size-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
+                            Active · Building &amp; Shipping
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Command 2: verify_pipeline.sh */}
+                    <div className="pt-2 border-t border-border-subtle/50">
+                      <div className="flex items-center gap-2 select-none">
+                        <span className="text-emerald-500 dark:text-emerald-400 font-bold">lounes@engineer</span>
+                        <span className="text-fg-subtle">:</span>
+                        <span className="text-sky-400 font-bold">~</span>
+                        <span className="text-fg-subtle">$</span>
+                        <span className="text-fg font-medium">./verify_pipeline.sh</span>
+                      </div>
+                      <div className="mt-1.5 space-y-0.5 pl-3 font-mono text-[11px] text-fg-subtle">
+                        <p className="flex items-center justify-between gap-1.5">
+                          <span className="flex items-center gap-1.5">
+                            <span className="text-emerald-500 dark:text-emerald-400 font-bold">✓</span>
+                            <span>Clean Architecture &amp; SOLID Principles</span>
+                          </span>
+                          <span className="text-emerald-500 dark:text-emerald-400 font-semibold">[PASS]</span>
+                        </p>
+                        <p className="flex items-center justify-between gap-1.5">
+                          <span className="flex items-center gap-1.5">
+                            <span className="text-emerald-500 dark:text-emerald-400 font-bold">✓</span>
+                            <span>Cross-Platform Flutter &amp; Modern Web</span>
+                          </span>
+                          <span className="text-emerald-500 dark:text-emerald-400 font-semibold">[READY]</span>
+                        </p>
+                        <p className="flex items-center justify-between gap-1.5">
+                          <span className="flex items-center gap-1.5">
+                            <span className="text-emerald-500 dark:text-emerald-400 font-bold">✓</span>
+                            <span>Data Pipelines &amp; RESTful Services</span>
+                          </span>
+                          <span className="text-emerald-500 dark:text-emerald-400 font-semibold">[STABLE]</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Terminal Prompt with Blinking Cursor */}
+                  <div className="pt-2 border-t border-border-subtle/50 flex items-center gap-2 select-none">
+                    <span className="text-emerald-500 dark:text-emerald-400 font-bold">lounes@engineer</span>
+                    <span className="text-fg-subtle">:</span>
+                    <span className="text-sky-400 font-bold">~</span>
+                    <span className="text-fg-subtle">$</span>
+                    <span className="inline-block w-2 h-4 bg-accent animate-pulse" />
+                  </div>
+                </div>
               </div>
             </Card3D>
           </Reveal>

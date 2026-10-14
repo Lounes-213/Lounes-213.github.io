@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
+import { profile } from "@/content/profile";
 import { cn } from "@/lib/utils/cn";
 
 type SplashScreenProps = {
@@ -9,9 +11,9 @@ type SplashScreenProps = {
 
 /**
  * Clean developer splash screen:
- * - Centered engineer brand typography
- * - 3 sleek dots underneath that animate one by one (staggered pulse/wave)
- * - Smooth entrance into the portfolio
+ * - Small profile picture (pdp)
+ * - Subtle name & "Software Engineer" role
+ * - 3 small soft loading dots placed lower down
  */
 export function SplashScreen({ locale: _locale }: SplashScreenProps = {}) {
   const [mounted, setMounted] = useState(true);
@@ -44,16 +46,30 @@ export function SplashScreen({ locale: _locale }: SplashScreenProps = {}) {
       )}
     >
       <div className="flex flex-col items-center justify-center text-center px-4">
+        {/* Small Profile Picture (PDP) */}
+        {profile.portrait.image && (
+          <div className="relative size-11 sm:size-12 rounded-full overflow-hidden ring-2 ring-accent/30 ring-offset-2 ring-offset-bg shadow-sm mb-3">
+            <Image
+              src={profile.portrait.image}
+              alt={profile.name}
+              fill
+              priority
+              sizes="48px"
+              className="object-cover"
+            />
+          </div>
+        )}
+
         {/* Clean Engineer Branding */}
-        <h1 className="font-display text-base sm:text-lg font-bold tracking-[0.3em] uppercase text-fg">
+        <h1 className="font-display text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase text-fg">
           Lounès Benseba
         </h1>
-        <p className="mt-1 font-mono text-[11px] sm:text-xs text-fg-subtle tracking-wider uppercase">
-          Software &amp; Mobile Engineer
+        <p className="mt-1 font-mono text-[10px] text-fg-subtle tracking-wider uppercase">
+          Software Engineer
         </p>
 
-        {/* 3 Staggered Loading Dots that animate one by one */}
-        <div className="mt-6 flex items-center justify-center gap-2.5">
+        {/* 3 Staggered Loading Dots placed lower down, smaller and softer color */}
+        <div className="mt-8 flex items-center justify-center gap-2">
           <span className="splash-dot splash-dot-1" />
           <span className="splash-dot splash-dot-2" />
           <span className="splash-dot splash-dot-3" />
@@ -62,11 +78,12 @@ export function SplashScreen({ locale: _locale }: SplashScreenProps = {}) {
 
       <style jsx>{`
         .splash-dot {
-          width: 9px;
-          height: 9px;
+          width: 5px;
+          height: 5px;
           border-radius: 9999px;
-          background-color: var(--accent-solid, #0ea5e9);
-          box-shadow: 0 0 10px 1px rgba(var(--accent-rgb, 14, 165, 233), 0.4);
+          background-color: var(--accent-solid, #38bdf8);
+          opacity: 0.7;
+          box-shadow: 0 0 6px 1px rgba(var(--accent-rgb, 56, 189, 248), 0.35);
           animation: dotPulse 1.2s infinite ease-in-out;
         }
 
@@ -84,14 +101,14 @@ export function SplashScreen({ locale: _locale }: SplashScreenProps = {}) {
 
         @keyframes dotPulse {
           0%, 80%, 100% {
-            transform: scale(0.6);
-            opacity: 0.25;
-            box-shadow: 0 0 4px 0px rgba(var(--accent-rgb, 14, 165, 233), 0.2);
+            transform: scale(0.65);
+            opacity: 0.2;
+            box-shadow: 0 0 2px 0px rgba(var(--accent-rgb, 56, 189, 248), 0.15);
           }
           40% {
-            transform: scale(1.3);
-            opacity: 1;
-            box-shadow: 0 0 14px 3px rgba(var(--accent-rgb, 14, 165, 233), 0.85);
+            transform: scale(1.15);
+            opacity: 0.85;
+            box-shadow: 0 0 8px 1.5px rgba(var(--accent-rgb, 56, 189, 248), 0.5);
           }
         }
       `}</style>
