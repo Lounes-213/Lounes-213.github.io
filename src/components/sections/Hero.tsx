@@ -176,17 +176,17 @@ export async function Hero({ locale }: HeroProps) {
         </Reveal>
 
         {/* Main Grid: Pro Rectangular Languages Card & Interactive Developer Terminal */}
-        <div className="w-full grid gap-stack-lg lg:grid-cols-[1.25fr_0.75fr] items-start">
+        <div className="w-full max-w-xl md:max-w-2xl lg:max-w-none mx-auto grid gap-6 sm:gap-stack-lg lg:grid-cols-[1.25fr_0.75fr] items-start justify-items-center">
           {/* Pro Rectangular Card for all CV Languages with 3D tilt */}
-          <Reveal direction="left" delay={0.2} animateOnView className="h-full">
-            <Card3D maxTilt={6} scale={1.01} glare={true} glareMaxOpacity={0.12} className="h-full">
+          <Reveal direction="up" delay={0.2} animateOnView className="w-full h-full flex justify-center">
+            <Card3D maxTilt={6} scale={1.01} glare={true} glareMaxOpacity={0.12} containerClassName="w-full" className="h-full w-full">
               <CvLanguagesCard />
             </Card3D>
           </Reveal>
 
           {/* Interactive Developer Terminal with Typewriter Animation & Predefined Commands */}
-          <Reveal direction="right" delay={0.25} animateOnView className="h-full">
-            <Card3D maxTilt={6} scale={1.015} glare={true} glareMaxOpacity={0.12} className="h-full">
+          <Reveal direction="up" delay={0.25} animateOnView className="w-full h-full flex justify-center">
+            <Card3D maxTilt={6} scale={1.015} glare={true} glareMaxOpacity={0.12} containerClassName="w-full" className="h-full w-full">
               <InteractiveTerminal locale={locale} />
             </Card3D>
           </Reveal>

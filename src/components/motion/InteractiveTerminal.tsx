@@ -248,7 +248,7 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
   };
 
   return (
-    <div className="well relative overflow-hidden p-5 sm:p-6 shadow-2 border border-border rounded-2xl h-full flex flex-col justify-between">
+    <div className="well relative overflow-hidden p-4 sm:p-6 shadow-2 border border-border rounded-2xl h-full flex flex-col justify-between w-full">
       <div>
         {/* Card Header matching previous styling with green accents and window controls */}
         <div className="flex items-center justify-between gap-2 text-fg-subtle border-b border-border-subtle pb-3 select-none">
@@ -282,8 +282,8 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
           </div>
         </div>
 
-        {/* Predefined Clickable Command Options / Pills */}
-        <div className="my-3 flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 select-none">
+        {/* Predefined Clickable Command Options / Pills — Centered on mobile */}
+        <div className="my-3 flex flex-wrap items-center justify-center sm:justify-start gap-1.5 py-1 select-none">
           <span className="text-[10px] font-mono text-fg-subtle flex items-center gap-1 me-1 shrink-0">
             <Sparkle size={11} className="text-emerald-500 dark:text-emerald-400" />
             <span className="hidden sm:inline">Options:</span>
@@ -374,7 +374,7 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
       </div>
 
       {/* Card Footer Hint matching previous styling */}
-      <p className="mt-3 border-t border-border-subtle pt-2.5 text-caption text-fg-subtle flex items-center justify-between">
+      <p className="mt-3 border-t border-border-subtle pt-2.5 text-caption text-fg-subtle flex flex-col sm:flex-row items-center justify-between gap-1 text-center sm:text-start">
         <span>Production software built with clean architecture &amp; data pipelines.</span>
         <span className="font-mono text-[10px] text-emerald-500 dark:text-emerald-400 font-semibold">Active</span>
       </p>

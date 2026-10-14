@@ -126,11 +126,11 @@ const CV_LANGUAGES: CvLanguageItem[] = [
  */
 export function CvLanguagesCard() {
   return (
-    <div className="w-full rounded-2xl border border-border bg-surface/95 p-5 sm:p-6 shadow-2 backdrop-blur-md">
-      {/* Card Header */}
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-border-subtle pb-3.5">
+    <div className="w-full rounded-2xl border border-border bg-surface/95 p-4 sm:p-6 shadow-2 backdrop-blur-md">
+      {/* Card Header — Centered on mobile, aligned on desktop */}
+      <div className="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 border-b border-border-subtle pb-3.5 text-center sm:text-start">
         <div>
-          <h3 className="font-display text-sm sm:text-base font-bold text-fg tracking-tight">
+          <h3 className="font-display text-base sm:text-lg font-bold text-fg tracking-tight">
             Core Languages &amp; Engineering Stack
           </h3>
           <p className="mt-0.5 text-xs text-fg-muted">
@@ -138,13 +138,13 @@ export function CvLanguagesCard() {
           </p>
         </div>
 
-        <span className="rounded-lg border border-border-subtle bg-surface-sunken px-2.5 py-1 font-mono text-[11px] font-semibold text-accent">
+        <span className="self-center sm:self-auto rounded-lg border border-border-subtle bg-surface-sunken px-2.5 py-1 font-mono text-[11px] font-semibold text-accent">
           12 Technologies
         </span>
       </div>
 
       {/* 3D Rectangular Tiles Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
         {CV_LANGUAGES.map((item, idx) => {
           const IconComponent = item.icon;
           return (
@@ -158,7 +158,7 @@ export function CvLanguagesCard() {
                 ease: [0.16, 1, 0.3, 1],
               }}
               whileHover={{ y: -3, scale: 1.02 }}
-              className={`group relative flex flex-col justify-between rounded-xl border border-border-subtle bg-surface-sunken/70 p-3 transition-all duration-200 hover:border-accent/40 hover:bg-surface-elevated border-s-4 ${item.accentColor} ${item.glowColor}`}
+              className={`group relative flex flex-col justify-between rounded-xl border border-border-subtle bg-surface-sunken/70 p-2.5 sm:p-3 transition-all duration-200 hover:border-accent/40 hover:bg-surface-elevated border-s-4 ${item.accentColor} ${item.glowColor}`}
             >
               <div className="flex items-start justify-between gap-2">
                 <div className="flex items-center gap-2">
