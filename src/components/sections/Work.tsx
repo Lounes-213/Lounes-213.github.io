@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { External, Instagram } from "@/components/icons";
 import { Badge } from "@/components/ui/Badge";
 import { Section } from "@/components/ui/Section";
 import { reels } from "@/content/reels";
@@ -23,10 +24,20 @@ export async function Work({ locale }: WorkProps) {
       width="wide"
       blueprint
       aside={
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Badge variant="accent" dot>
             {reels.length} Projects & Video Demos
           </Badge>
+          <a
+            href="https://instagram.com/lounes.7i"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-pill border border-border bg-surface px-3 py-1 text-xs font-medium text-fg-muted hover:text-accent hover:border-accent/40 transition-colors shadow-xs"
+          >
+            <Instagram size={13} className="text-[#E1306C]" />
+            <span>@lounes.7i</span>
+            <External size={11} className="opacity-60" />
+          </a>
         </div>
       }
     >

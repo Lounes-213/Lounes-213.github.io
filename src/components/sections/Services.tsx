@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { ArrowRight, Check, Cloud, Compass, Layers, Pulse, Shield, Smartphone, Sparkle } from "@/components/icons";
+import { Card3D } from "@/components/motion/Card3D";
 import { Reveal } from "@/components/motion/Reveal";
 import { Badge } from "@/components/ui/Badge";
 import { Section } from "@/components/ui/Section";
@@ -41,12 +42,13 @@ export async function Services({ locale }: ServicesProps) {
           const Icon = ICONS[service.icon];
           return (
             <Reveal key={service.slug} delay={index * 0.05} className="h-full">
-              <li
-                className={cn(
-                  "panel flex h-full flex-col gap-4 p-6 transition-shadow dur-3 ease-out-expo hover:shadow-3",
-                  service.featured && "border-accent-soft-border",
-                )}
-              >
+              <Card3D maxTilt={6} scale={1.015} glare={true} glareMaxOpacity={0.12} className="h-full">
+                <li
+                  className={cn(
+                    "panel flex h-full flex-col gap-4 p-6 transition-shadow dur-3 ease-out-expo hover:shadow-3",
+                    service.featured && "border-accent-soft-border",
+                  )}
+                >
                 <div className="flex items-start justify-between gap-3">
                   <span
                     aria-hidden="true"
@@ -93,8 +95,9 @@ export async function Services({ locale }: ServicesProps) {
                   <ArrowRight size={15} />
                 </a>
               </li>
-            </Reveal>
-          );
+            </Card3D>
+          </Reveal>
+        );
         })}
       </ul>
 

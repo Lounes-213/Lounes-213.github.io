@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
+import { Card3D } from "@/components/motion/Card3D";
 import { Badge } from "@/components/ui/Badge";
 import { Section } from "@/components/ui/Section";
 import { skills } from "@/content/skills";
@@ -45,22 +46,24 @@ function SkillCard({ item, locale }: { item: SkillItem; locale: Locale }) {
   const t = useTranslations("skills");
 
   return (
-    <li className="panel flex flex-col gap-2 p-4">
-      <div className="flex items-start justify-between gap-3">
-        <p className="font-mono text-body text-fg ltr-island">{item.name}</p>
-        {item.highlight && <Badge variant="accent">{t("highlighted")}</Badge>}
-      </div>
+    <Card3D maxTilt={6} scale={1.01} glare={true} glareMaxOpacity={0.1} className="h-full">
+      <li className="panel flex h-full flex-col gap-2 p-4">
+        <div className="flex items-start justify-between gap-3">
+          <p className="font-mono text-body text-fg ltr-island">{item.name}</p>
+          {item.highlight && <Badge variant="accent">{t("highlighted")}</Badge>}
+        </div>
 
-      <div className="flex items-center gap-3">
-        <ProficiencyMeter level={item.level} label={t("proficiencyScaleLabel", { level: item.level })} />
-        <span className="text-caption text-fg-subtle">
-          {t(LEVEL_KEYS[item.level as (typeof LEVELS)[number]] ?? "levels.3")}
-          {item.years ? ` · ${t("experience", { count: item.years })}` : ""}
-        </span>
-      </div>
+        <div className="flex items-center gap-3">
+          <ProficiencyMeter level={item.level} label={t("proficiencyScaleLabel", { level: item.level })} />
+          <span className="text-caption text-fg-subtle">
+            {t(LEVEL_KEYS[item.level as (typeof LEVELS)[number]] ?? "levels.3")}
+            {item.years ? ` · ${t("experience", { count: item.years })}` : ""}
+          </span>
+        </div>
 
-      {item.note && <p className="text-caption text-fg-muted">{pick(item.note, locale)}</p>}
-    </li>
+        {item.note && <p className="text-caption text-fg-muted">{pick(item.note, locale)}</p>}
+      </li>
+    </Card3D>
   );
 }
 

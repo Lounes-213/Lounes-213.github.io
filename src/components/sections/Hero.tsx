@@ -1,10 +1,12 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { ArrowDown, ArrowRight, Download, Terminal } from "@/components/icons";
+import { Card3D } from "@/components/motion/Card3D";
 import { CvLanguagesCard } from "@/components/motion/CvLanguagesCard";
 import { CreativeFloatingBlobs } from "@/components/motion/CreativeFloatingBlobs";
 import { PointerGlow } from "@/components/motion/PointerGlow";
 import { Reveal } from "@/components/motion/Reveal";
+import { ThreeDTechOrb } from "@/components/motion/ThreeDTechOrb";
 import { ButtonLink } from "@/components/ui/Button";
 import { profile } from "@/content/profile";
 import { pick } from "@/content/schema";
@@ -14,7 +16,8 @@ type HeroProps = { locale: Locale };
 
 /**
  * The hero carries the proposition: centered profile picture, pro typography,
- * CV download action, pro rectangular languages card, and ways forward.
+ * CV download action, pro rectangular languages card, interactive 3D WebGL core,
+ * and ways forward.
  */
 export async function Hero({ locale }: HeroProps) {
   const t = await getTranslations("hero");
@@ -129,52 +132,72 @@ export async function Hero({ locale }: HeroProps) {
           </p>
         </Reveal>
 
-        {/* Main Grid: Pro Rectangular Languages Card (Mustatil) & Terminal Card */}
+        {/* Main Grid: Pro Rectangular Languages Card & Whoami Terminal with 3D Core */}
         <div className="w-full grid gap-stack-lg lg:grid-cols-[1.3fr_0.7fr] items-start">
-          {/* Pro Rectangular Card for all CV Languages (No animated dots) */}
-          <Reveal direction="left" delay={0.2} animateOnView>
-            <CvLanguagesCard />
+          {/* Pro Rectangular Card for all CV Languages with 3D tilt */}
+          <Reveal direction="left" delay={0.2} animateOnView className="h-full">
+            <Card3D maxTilt={6} scale={1.01} glare={true} glareMaxOpacity={0.12} className="h-full">
+              <CvLanguagesCard />
+            </Card3D>
           </Reveal>
 
-          {/* Whoami Terminal Card */}
-          <Reveal direction="right" delay={0.25} animateOnView>
-            <div className="well relative overflow-hidden p-5 sm:p-6 shadow-2 border border-border rounded-2xl">
-              <div className="flex items-center gap-2 text-fg-subtle">
-                <Terminal size={16} />
-                <span className="font-mono text-caption ltr-island">{t("terminalCommand")}</span>
+          {/* Whoami Terminal Card with 3D Interactive WebGL Orb */}
+          <Reveal direction="right" delay={0.25} animateOnView className="h-full">
+            <Card3D maxTilt={7} scale={1.015} glare={true} glareMaxOpacity={0.15} className="h-full">
+              <div className="well relative overflow-hidden p-5 sm:p-6 shadow-2 border border-border rounded-2xl h-full flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between gap-2 text-fg-subtle border-b border-border-subtle pb-3">
+                    <div className="flex items-center gap-2">
+                      <Terminal size={16} />
+                      <span className="font-mono text-caption ltr-island">{t("terminalCommand")}</span>
+                    </div>
+                    <span className="inline-flex items-center gap-1.5 font-mono text-[10px] text-accent font-semibold tracking-wider">
+                      <span className="size-1.5 rounded-full bg-accent animate-pulse" />
+                      3D SPATIAL CORE
+                    </span>
+                  </div>
+
+                  {/* Interactive Three.js 3D WebGL Tech Orb */}
+                  <div className="my-3 flex flex-col items-center justify-center relative overflow-hidden rounded-xl bg-surface-sunken/50 border border-border-subtle/80 py-2 group">
+                    <ThreeDTechOrb size={170} className="w-[170px] h-[170px] cursor-grab active:cursor-grabbing" />
+                    <span className="font-mono text-[10px] text-fg-subtle tracking-wider uppercase opacity-70 group-hover:opacity-100 transition-opacity">
+                      Interactive 3D Engine · Move cursor
+                    </span>
+                  </div>
+
+                  <dl className="mt-3 flex flex-col gap-2.5 font-mono text-caption">
+                    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                      <dt className="w-20 shrink-0 text-fg-subtle">{t("terminalStatus")}</dt>
+                      <dd className="ltr-island text-success-text font-semibold">Active · Full-Stack &amp; Mobile</dd>
+                    </div>
+                    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                      <dt className="w-20 shrink-0 text-fg-subtle">{t("terminalBased")}</dt>
+                      <dd className="text-fg">{pick(profile.location, locale)}</dd>
+                    </div>
+                    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                      <dt className="w-20 shrink-0 text-fg-subtle">degrees</dt>
+                      <dd className="text-fg font-medium">
+                        {locale === "ar"
+                          ? "ليسانس إعلام آلي · ماستر بيومعلوماتية (USTHB)"
+                          : locale === "fr"
+                          ? "Licence Informatique · Master Bioinformatique (USTHB)"
+                          : "BSc Computer Science · MSc Bioinformatics (USTHB)"}
+                      </dd>
+                    </div>
+                    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                      <dt className="w-20 shrink-0 text-fg-subtle">{t("terminalStack")}</dt>
+                      <dd className="text-fg-muted ltr-island">
+                        Flutter, Dart, Python, Java, Next.js, FastAPI, R
+                      </dd>
+                    </div>
+                  </dl>
+                </div>
+
+                <p className="mt-4 border-t border-border-subtle pt-3 text-caption text-fg-subtle">
+                  {t("terminalHint")}
+                </p>
               </div>
-
-              <dl className="mt-5 flex flex-col gap-3 font-mono text-caption">
-                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                  <dt className="w-20 shrink-0 text-fg-subtle">{t("terminalStatus")}</dt>
-                  <dd className="ltr-island text-success-text font-semibold">Active · Full-Stack &amp; Mobile</dd>
-                </div>
-                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                  <dt className="w-20 shrink-0 text-fg-subtle">{t("terminalBased")}</dt>
-                  <dd className="text-fg">{pick(profile.location, locale)}</dd>
-                </div>
-                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                  <dt className="w-20 shrink-0 text-fg-subtle">degrees</dt>
-                  <dd className="text-fg font-medium">
-                    {locale === "ar"
-                      ? "ليسانس إعلام آلي · ماستر بيومعلوماتية (USTHB)"
-                      : locale === "fr"
-                      ? "Licence Informatique · Master Bioinformatique (USTHB)"
-                      : "BSc Computer Science · MSc Bioinformatics (USTHB)"}
-                  </dd>
-                </div>
-                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                  <dt className="w-20 shrink-0 text-fg-subtle">{t("terminalStack")}</dt>
-                  <dd className="text-fg-muted ltr-island">
-                    Flutter, Dart, Python, Java, Next.js, FastAPI, R
-                  </dd>
-                </div>
-              </dl>
-
-              <p className="mt-5 border-t border-border-subtle pt-4 text-caption text-fg-subtle">
-                {t("terminalHint")}
-              </p>
-            </div>
+            </Card3D>
           </Reveal>
         </div>
       </div>
