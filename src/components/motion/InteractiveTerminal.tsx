@@ -6,19 +6,6 @@ import { profile } from "@/content/profile";
 import { pick } from "@/content/schema";
 import type { Locale } from "@/lib/i18n/routing";
 
-const IconEnter = () => (
-  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="9 10 4 15 9 20" />
-    <path d="M20 4v7a4 4 0 0 1-4 4H4" />
-  </svg>
-);
-
-const IconTrash = () => (
-  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-  </svg>
-);
-
 interface InteractiveTerminalProps {
   locale: Locale;
 }
@@ -40,6 +27,37 @@ const PREDEFINED_COMMANDS = [
   { id: "clear", label: "clear", desc: "Reset Terminal" },
 ] as const;
 
+const IconEnter = () => (
+  <svg
+    width="13"
+    height="13"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <polyline points="9 10 4 15 9 20" />
+    <path d="M20 4v7a4 4 0 0 1-4 4H4" />
+  </svg>
+);
+
+const IconTrash = () => (
+  <svg
+    width="12"
+    height="12"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+  </svg>
+);
+
 export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
   const [entries, setEntries] = useState<CommandEntry[]>([]);
   const [inputVal, setInputVal] = useState("");
@@ -60,22 +78,22 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
           `==================================================`,
           ` USER PROFILE : LOUNÈS BENSEBA`,
           `==================================================`,
-          ` • Role       : Software Engineer`,
-          ` • Degrees    : ${
+          ` • Role        : Software Engineer`,
+          ` • Degrees     : ${
             locale === "ar"
               ? "BSc Informatique & MSc Bioinformatique (USTHB)"
               : locale === "fr"
               ? "Licence Informatique & Master Bioinformatique (USTHB)"
               : "BSc Computer Science & MSc Bioinformatics (USTHB)"
           }`,
-          ` • Location   : ${pick(profile.location, locale)}`,
-          ` • Status     : Active · Available for freelance & engineering roles`,
+          ` • Location    : ${pick(profile.location, locale)}`,
+          ` • Status      : Active · Available for high-impact projects`,
           ``,
           ` [CORE LANGUAGES & ENGINEERING]`,
-          ` • Core Languages : Flutter, Dart, Python, Java, Next.js, FastAPI, R, TypeScript`,
-          ` • Architecture   : Clean Architecture, SOLID Principles, BLoC, Riverpod`,
-          ` • Engineering    : Scalable Mobile Apps, High-Throughput APIs, Data Pipelines`,
-          ` • Code Standard  : 100% Type-Safe, Robust Error Handling, Clean UI/UX`,
+          ` • Languages   : Flutter, Dart, Python, Java, Next.js, FastAPI, R, TypeScript`,
+          ` • Architecture: Clean Architecture, SOLID Principles, BLoC, Riverpod`,
+          ` • Engineering : Scalable Mobile Apps, High-Throughput APIs, Data Pipelines`,
+          ` • Code Quality: 100% Type-Safe, Robust Error Handling, Clean UI/UX`,
         ].join("\n");
 
       case "skills":
@@ -98,12 +116,12 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
           ` ACADEMIC FOUNDATIONS (USTHB)`,
           `==================================================`,
           ` [2024 - Present] Master 2 (MSc) in Bioinformatics`,
-          `   - University of Science and Technology Houari Boumediene (USTHB)`,
+          `   - USTHB Algiers`,
           `   - Computational modeling, algorithmic genomics, advanced data structures`,
           ``,
           ` [2021 - 2024] Bachelor's Degree (BSc) in Computer Science`,
           `   - USTHB Algiers`,
-          `   - Software engineering, operating systems, networking, database design`,
+          `   - Software engineering, operating systems, networking, database systems`,
         ].join("\n");
 
       case "projects":
@@ -146,7 +164,7 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
         ].join("\n");
 
       default:
-        return `bash: command not found: "${cmd}". Type 'help' or select a predefined command above.`;
+        return `bash: command not found: "${cmd}". Type 'help' or click an option above.`;
     }
   };
 
@@ -198,7 +216,7 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
 
     // Typewriter effect settings (fast, realistic terminal typewriter speed)
     let charIndex = 0;
-    const stepSize = fullOutput.length > 250 ? 3 : 2; // Speed up slightly on longer text for great UX
+    const stepSize = fullOutput.length > 250 ? 3 : 2;
     const speedMs = 12;
 
     typingTimerRef.current = setInterval(() => {
@@ -251,109 +269,88 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
 
   const handleChipClick = (cmd: string) => {
     runCommand(cmd);
-    // Focus terminal input
     inputRef.current?.focus();
   };
 
   return (
-    <div className="rounded-2xl border border-border bg-[#0a0e17] text-slate-100 shadow-2 overflow-hidden flex flex-col h-[500px] sm:h-[520px] backdrop-blur-md">
-      {/* Authentic PC Terminal Window Header / Title Bar */}
-      <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/10 bg-white/[0.03] select-none shrink-0">
-        {/* Traffic Light Window Controls */}
-        <div className="flex items-center gap-1.5">
-          <span className="size-3 rounded-full bg-[#ff5f56] border border-[#e0443e]/80 inline-block shadow-xs" />
-          <span className="size-3 rounded-full bg-[#ffbd2e] border border-[#dea123]/80 inline-block shadow-xs" />
-          <span className="size-3 rounded-full bg-[#27c93f] border border-[#1aab29]/80 inline-block shadow-xs" />
-        </div>
-
-        {/* Window Title */}
-        <div className="flex items-center gap-1.5 font-mono text-[11px] sm:text-xs text-slate-400 font-medium">
-          <Terminal size={13} className="text-sky-400 shrink-0" />
-          <span>lounes@workstation:~</span>
-        </div>
-
-        {/* Window Badge & Clear Action */}
-        <div className="flex items-center gap-2">
-          {entries.length > 0 && (
-            <button
-              onClick={() => runCommand("clear")}
-              title="Clear terminal"
-              className="text-slate-400 hover:text-slate-200 transition-colors p-1"
-            >
-              <IconTrash />
-            </button>
-          )}
-          <span className="font-mono text-[10px] text-slate-400 bg-white/5 px-1.5 py-0.5 rounded border border-white/10">
-            bash · 80x24
-          </span>
-        </div>
-      </div>
-
-      {/* Predefined Clickable Command Buttons (Quick Select) */}
-      <div className="px-3.5 py-2 border-b border-white/10 bg-white/[0.02] flex items-center gap-1.5 overflow-x-auto no-scrollbar shrink-0 select-none">
-        <span className="text-[10px] font-mono text-slate-400 flex items-center gap-1 me-1">
-          <Sparkle size={11} className="text-accent" />
-          <span className="hidden sm:inline">Commands:</span>
-        </span>
-        {PREDEFINED_COMMANDS.map((item) => {
-          const isActive = activeCommand === item.id;
-          return (
-            <button
-              key={item.id}
-              onClick={() => handleChipClick(item.id)}
-              className={`rounded px-2 py-0.5 font-mono text-[10px] sm:text-[11px] transition-all whitespace-nowrap border ${
-                isActive
-                  ? "bg-accent/20 border-accent/60 text-sky-300 font-semibold shadow-[0_0_8px_rgba(56,189,248,0.25)]"
-                  : "bg-white/[0.04] border-white/10 text-slate-300 hover:bg-white/[0.08] hover:text-white hover:border-white/20"
-              }`}
-              title={item.desc}
-            >
-              {item.label}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Terminal Screen Console Buffer */}
-      <div
-        ref={containerRef}
-        onClick={() => inputRef.current?.focus()}
-        className="p-4 sm:p-5 font-mono text-xs flex-1 overflow-y-auto space-y-4 cursor-text selection:bg-sky-500/30 selection:text-sky-200"
-      >
-        {/* Terminal Header Banner */}
-        <div className="text-[11px] text-slate-400 space-y-0.5 pb-2 border-b border-white/5 select-none">
-          <p className="text-slate-300 font-semibold">Lounès Benseba Workstation [Version 2.4.0-x86_64]</p>
-          <p className="text-slate-400">Type a command or click predefined options above to explore.</p>
-        </div>
-
-        {/* Command History with Typewriter Text Output */}
-        {entries.map((entry) => (
-          <div key={entry.id} className="space-y-1.5 leading-relaxed">
-            {/* Prompt line that was executed */}
-            <div className="flex items-center gap-2 text-slate-400 select-none">
-              <span className="text-emerald-400 font-bold">lounes@engineer</span>
-              <span>:</span>
-              <span className="text-sky-400 font-bold">~</span>
-              <span>$</span>
-              <span className="text-white font-semibold">{entry.command}</span>
-            </div>
-
-            {/* Typewriter Output Content */}
-            <pre className="font-mono text-[11px] sm:text-xs text-slate-200 whitespace-pre-wrap pl-3 border-l-2 border-accent/40 bg-white/[0.015] py-1.5 rounded-r">
-              {entry.displayedOutput}
-              {!entry.isCompleted && (
-                <span className="inline-block w-1.5 h-3.5 bg-sky-400 ml-0.5 animate-pulse align-middle" />
-              )}
-            </pre>
+    <div className="well relative overflow-hidden p-5 sm:p-6 shadow-2 border border-border rounded-2xl h-full flex flex-col justify-between">
+      <div>
+        {/* Card Header matching previous styling */}
+        <div className="flex items-center justify-between gap-2 text-fg-subtle border-b border-border-subtle pb-3 select-none">
+          <div className="flex items-center gap-2">
+            <Terminal size={16} className="text-accent shrink-0" />
+            <span className="font-mono text-caption ltr-island font-semibold text-fg">~ whoami</span>
           </div>
-        ))}
 
-        {/* Active Command Input Line */}
-        <form onSubmit={handleSubmit} className="flex items-center gap-2 pt-1">
-          <div className="flex items-center gap-2 text-slate-400 select-none shrink-0">
-            <span className="text-emerald-400 font-bold">lounes@engineer</span>
-            <span>:</span>
-            <span className="text-sky-400 font-bold">~</span>
+          <div className="flex items-center gap-2">
+            {entries.length > 0 && (
+              <button
+                onClick={() => runCommand("clear")}
+                title="Clear output"
+                className="text-fg-subtle hover:text-fg transition-colors p-1"
+              >
+                <IconTrash />
+              </button>
+            )}
+            <span className="font-mono text-[11px] text-fg-subtle">
+              bash · workstation
+            </span>
+          </div>
+        </div>
+
+        {/* Predefined Clickable Command Options / Pills */}
+        <div className="my-3 flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 select-none">
+          <span className="text-[10px] font-mono text-fg-subtle flex items-center gap-1 me-1 shrink-0">
+            <Sparkle size={11} className="text-accent" />
+            <span className="hidden sm:inline">Options:</span>
+          </span>
+          {PREDEFINED_COMMANDS.map((item) => {
+            const isActive = activeCommand === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => handleChipClick(item.id)}
+                className={`rounded-lg px-2.5 py-1 font-mono text-[10px] sm:text-[11px] transition-all whitespace-nowrap border ${
+                  isActive
+                    ? "bg-accent/15 border-accent text-accent font-semibold shadow-xs"
+                    : "bg-surface border-border-subtle text-fg-muted hover:text-fg hover:border-accent/40 hover:bg-surface-elevated"
+                }`}
+                title={item.desc}
+              >
+                {item.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Scrollable Output Screen with Typewriter Effect */}
+        <div
+          ref={containerRef}
+          onClick={() => inputRef.current?.focus()}
+          className="min-h-[220px] max-h-[290px] overflow-y-auto font-mono text-caption pr-1 space-y-3 cursor-text selection:bg-accent/20"
+        >
+          {entries.map((entry) => (
+            <div key={entry.id} className="space-y-1.5 leading-relaxed">
+              {/* Command line */}
+              <div className="flex items-center gap-1.5 text-accent font-semibold text-caption select-none">
+                <span className="text-fg-subtle font-normal">$</span>
+                <span>{entry.command}</span>
+              </div>
+
+              {/* Typewriter Output Content */}
+              <pre className="font-mono text-[11px] sm:text-xs text-fg whitespace-pre-wrap pl-3 border-l-2 border-accent/40 bg-surface-sunken/60 py-2 rounded-r">
+                {entry.displayedOutput}
+                {!entry.isCompleted && (
+                  <span className="inline-block w-1.5 h-3 bg-accent ml-0.5 animate-pulse align-middle" />
+                )}
+              </pre>
+            </div>
+          ))}
+        </div>
+
+        {/* Interactive CLI Input Line */}
+        <form onSubmit={handleSubmit} className="mt-3 pt-2.5 border-t border-border-subtle flex items-center gap-2">
+          <div className="flex items-center gap-1.5 text-accent font-mono text-caption shrink-0 select-none font-bold">
             <span>$</span>
           </div>
 
@@ -363,21 +360,21 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
               type="text"
               value={inputVal}
               onChange={(e) => setInputVal(e.target.value)}
-              placeholder={isTyping ? "executing..." : "type command (e.g. skills)..."}
+              placeholder={isTyping ? "executing..." : "type command (skills, education, contact...)"}
               disabled={isTyping}
-              className="w-full bg-transparent border-none outline-none font-mono text-xs text-white placeholder:text-slate-600 focus:ring-0 p-0"
+              className="w-full bg-transparent border-none outline-none font-mono text-caption text-fg placeholder:text-fg-subtle/50 focus:ring-0 p-0"
               autoComplete="off"
               spellCheck="false"
             />
             {/* Terminal Cursor */}
-            <span className="inline-block w-2 h-4 bg-sky-400 animate-pulse ml-1 shrink-0" />
+            <span className="inline-block w-1.5 h-3.5 bg-accent animate-pulse ml-1 shrink-0" />
           </div>
 
           {inputVal.trim() && (
             <button
               type="submit"
               disabled={isTyping}
-              className="text-slate-400 hover:text-sky-300 p-1 transition-colors shrink-0"
+              className="text-fg-subtle hover:text-accent p-1 transition-colors shrink-0"
               title="Execute"
             >
               <IconEnter />
@@ -386,14 +383,11 @@ export function InteractiveTerminal({ locale }: InteractiveTerminalProps) {
         </form>
       </div>
 
-      {/* Terminal Footer Status Bar */}
-      <div className="px-4 py-1.5 border-t border-white/10 bg-white/[0.02] flex items-center justify-between text-[10px] font-mono text-slate-400 select-none shrink-0">
-        <span className="flex items-center gap-1.5">
-          <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span>Interactive Shell Active</span>
-        </span>
-        <span className="text-slate-400">UTF-8 · ZSH</span>
-      </div>
+      {/* Card Footer Hint matching previous styling */}
+      <p className="mt-3 border-t border-border-subtle pt-2.5 text-caption text-fg-subtle flex items-center justify-between">
+        <span>Production software built with clean architecture &amp; data pipelines.</span>
+        <span className="font-mono text-[10px] text-fg-subtle/80">Active</span>
+      </p>
     </div>
   );
 }

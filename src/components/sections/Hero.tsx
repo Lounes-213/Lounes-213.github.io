@@ -176,7 +176,7 @@ export async function Hero({ locale }: HeroProps) {
         </Reveal>
 
         {/* Main Grid: Pro Rectangular Languages Card & Interactive Developer Terminal */}
-        <div className="w-full grid gap-stack-lg lg:grid-cols-[1.1fr_0.9fr] items-start">
+        <div className="w-full grid gap-stack-lg lg:grid-cols-[1.25fr_0.75fr] items-start">
           {/* Pro Rectangular Card for all CV Languages with 3D tilt */}
           <Reveal direction="left" delay={0.2} animateOnView className="h-full">
             <Card3D maxTilt={6} scale={1.01} glare={true} glareMaxOpacity={0.12} className="h-full">
@@ -186,7 +186,7 @@ export async function Hero({ locale }: HeroProps) {
 
           {/* Interactive Developer Terminal with Typewriter Animation & Predefined Commands */}
           <Reveal direction="right" delay={0.25} animateOnView className="h-full">
-            <Card3D maxTilt={5} scale={1.01} glare={true} glareMaxOpacity={0.1} className="h-full">
+            <Card3D maxTilt={6} scale={1.015} glare={true} glareMaxOpacity={0.12} className="h-full">
               <InteractiveTerminal locale={locale} />
             </Card3D>
           </Reveal>
