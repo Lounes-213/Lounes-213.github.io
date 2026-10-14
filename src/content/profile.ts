@@ -130,7 +130,7 @@ export const profile = parseContent(
     socials: [
       { id: "email", label: "Email", href: "mailto:bensebalounes7@gmail.com", handle: "bensebalounes7@gmail.com", primary: true },
       { id: "github", label: "GitHub", href: "https://github.com/Lounes-213", handle: "Lounes-213" },
-      { id: "linkedin", label: "LinkedIn", href: "https://linkedin.com/in/bensebalounes", handle: "in/bensebalounes" },
+      { id: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/lounes-benseba-a07549393/", handle: "lounes-benseba" },
       { id: "instagram", label: "Instagram", href: "https://instagram.com/lounes.7i", handle: "@lounes.7i" },
       { id: "tiktok", label: "TikTok", href: "https://tiktok.com/@lounes.7i", handle: "@lounes.7i" },
       { id: "facebook", label: "Facebook", href: "https://facebook.com/lounes.7i", handle: "lounes.7i" },

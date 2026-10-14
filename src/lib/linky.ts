@@ -161,7 +161,7 @@ export const STATIC_LINKY_PROFILE: LinkyProfileData = {
     },
   ],
   socialLinks: [
-    { platform: "linkedin", username: "bensebalounes", url: "https://linkedin.com/in/bensebalounes" },
+    { platform: "linkedin", username: "lounes-benseba", url: "https://www.linkedin.com/in/lounes-benseba-a07549393/" },
     { platform: "instagram", username: "lounes.7i", url: "https://instagram.com/lounes.7i" },
     { platform: "tiktok", username: "lounes.7i", url: "https://tiktok.com/@lounes.7i" },
     { platform: "facebook", username: "lounes.7i", url: "https://facebook.com/lounes.7i" },

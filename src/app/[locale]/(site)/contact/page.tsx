@@ -295,7 +295,7 @@ export default function DedicatedContactPage() {
                   </span>
                   <div className="flex flex-col gap-2">
                     <a
-                      href="https://linkedin.com/in/bensebalounes"
+                      href="https://www.linkedin.com/in/lounes-benseba-a07549393/"
                       target="_blank"
                       rel="noreferrer noopener"
                       className="inline-flex items-center justify-between rounded-lg bg-surface-sunken px-3 py-2 text-xs font-medium text-fg hover:bg-surface-elevated transition-colors border border-border-subtle"

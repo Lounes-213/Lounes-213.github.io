@@ -134,11 +134,11 @@ export async function Hero({ locale }: HeroProps) {
                   <GitHub size={17} />
                 </a>
                 <a
-                  href="https://linkedin.com/in/bensebalounes"
+                  href="https://www.linkedin.com/in/lounes-benseba-a07549393/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="grid size-9 place-items-center rounded-xl border border-border-subtle bg-surface-sunken/80 text-fg-muted hover:text-[#0A66C2] hover:border-[#0A66C2]/40 hover:bg-surface-elevated transition-all shadow-xs hover:scale-105"
-                  title="LinkedIn (bensebalounes)"
+                  title="LinkedIn (lounes-benseba)"
                 >
                   <LinkedIn size={17} />
                 </a>
