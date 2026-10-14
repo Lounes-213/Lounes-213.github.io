@@ -1,36 +1,34 @@
 import {
-  Fraunces,
   IBM_Plex_Sans_Arabic,
-  Instrument_Sans,
   JetBrains_Mono,
+  Plus_Jakarta_Sans,
+  Space_Grotesk,
 } from "next/font/google";
 
 /**
- * Self-hosted, subset, swap-displayed typefaces. Each one injects the CSS
- * variable that src/styles/tokens.css consumes (`--font-fraunces`, …), so the
- * design system keeps working even if a face fails to load: the token falls
- * back to a system stack instead of breaking the layout.
+ * Modern High-Tech Developer Typography Stack:
+ * - Display: Space Grotesk — geometric, technical grotesque for sharp software engineer headlines.
+ * - Body: Plus Jakarta Sans — hyper-clean, legible modern sans.
+ * - Code: JetBrains Mono — the quintessential developer monospace font.
+ * - Arabic: IBM Plex Sans Arabic — modern, structured tech Arabic face.
  */
 
-/** Display: editorial serif with real contrast — headlines, numbers, wordmark. */
-export const fontDisplay = Fraunces({
+export const fontDisplay = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-fraunces",
+  variable: "--font-tech-display",
+  display: "swap",
+  weight: ["500", "600", "700"],
+  preload: true,
+});
+
+export const fontSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-tech-sans",
   display: "swap",
   weight: ["400", "500", "600", "700"],
   preload: true,
 });
 
-/** Text: clean, slightly technical sans for body and UI. */
-export const fontSans = Instrument_Sans({
-  subsets: ["latin"],
-  variable: "--font-instrument",
-  display: "swap",
-  weight: ["400", "500", "600", "700"],
-  preload: true,
-});
-
-/** Mono: code, kbd, metrics, blueprint annotations, the terminal easter egg. */
 export const fontMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains",
@@ -39,7 +37,6 @@ export const fontMono = JetBrains_Mono({
   preload: false,
 });
 
-/** Arabic: high-quality humanist face, tuned per weight instead of stretched. */
 export const fontArabic = IBM_Plex_Sans_Arabic({
   subsets: ["arabic"],
   variable: "--font-plex-arabic",

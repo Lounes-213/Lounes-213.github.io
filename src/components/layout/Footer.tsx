@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { ArrowUp, Mail } from "@/components/icons";
+import { ArrowUp } from "@/components/icons";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { ThemeModeControl } from "@/components/layout/ThemeToggle";
 import { profile } from "@/content/profile";
@@ -24,16 +24,15 @@ export async function Footer({ locale }: FooterProps) {
   return (
     <footer className="relative border-t border-border bg-bg-subtle pb-tabbar lg:pb-0">
       <div className="container-page py-12">
-        <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+        <div className="grid gap-10 lg:grid-cols-[1.8fr_1fr_1.2fr]">
           <div className="max-w-prose">
-            <p className="font-display text-h3">{profile.name}</p>
+            <p className="font-display text-h3 font-bold tracking-tight">{profile.name}</p>
             <p className="mt-stack-xs text-body text-fg-muted">{pick(profile.tagline, resolvedLocale)}</p>
-            <p className="mt-stack-sm inline-flex items-center gap-2 text-caption text-fg-subtle">
-              <span
-                aria-hidden="true"
-                className="inline-block size-1.5 rounded-pill bg-success"
-              />
-              {tAvailability(profile.availability.status)} · {pick(profile.location, resolvedLocale)}
+            <p className="mt-stack-sm inline-flex items-center gap-2 font-mono text-caption text-fg-subtle">
+              <span className="font-semibold text-accent">STATUS:</span>
+              <span>{tAvailability(profile.availability.status)}</span>
+              <span>·</span>
+              <span>{pick(profile.location, resolvedLocale)}</span>
             </p>
           </div>
 
@@ -49,27 +48,6 @@ export async function Footer({ locale }: FooterProps) {
               ))}
             </ul>
           </nav>
-
-          <div>
-            <p className="eyebrow mb-stack-sm">{t("elsewhere")}</p>
-            <ul className="flex flex-col gap-2">
-              {profile.socials.map((social) => (
-                <li key={social.id}>
-                  <a
-                    href={social.href}
-                    className="inline-flex items-center gap-2 text-body text-fg-muted transition-colors dur-2 hover:text-fg"
-                    {...(social.href.startsWith("http") ? { target: "_blank", rel: "noreferrer noopener" } : {})}
-                  >
-                    {social.id === "email" && <Mail size={16} />}
-                    <span>{social.label}</span>
-                    {social.handle && (
-                      <span className="text-caption text-fg-subtle ltr-island">({social.handle})</span>
-                    )}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
 
           <div className="flex flex-col gap-4">
             <div>

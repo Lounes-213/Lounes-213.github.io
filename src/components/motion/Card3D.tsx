@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState, type CSSProperties, type MouseEvent, type ReactNode } from "react";
+import { useCallback, useRef, useState, type CSSProperties, type MouseEvent, type TouchEvent, type ReactNode } from "react";
 import { cn } from "@/lib/utils/cn";
 
 type Card3DProps = {
@@ -17,7 +17,8 @@ type Card3DProps = {
 
 /**
  * Card3D: High-performance 3D tilt component with physical depth,
- * dynamic glare lighting sheen, and realistic 3D elevation shadows.
+ * dynamic glare lighting sheen, realistic 3D elevation shadows,
+ * and full touch-screen mobile 3D interaction.
  *
  * Inner elements can use:
  * - `translate-z-10` (+10px 3D depth)
@@ -29,11 +30,11 @@ export function Card3D({
   children,
   className,
   containerClassName,
-  maxTilt = 10,
+  maxTilt = 8,
   perspective = 1000,
   scale = 1.02,
   glare = true,
-  glareMaxOpacity = 0.18,
+  glareMaxOpacity = 0.16,
   depth = true,
 }: Card3DProps) {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -46,19 +47,19 @@ export function Card3D({
     background: "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 80%)",
   });
 
-  const handleMouseMove = useCallback(
-    (e: MouseEvent<HTMLDivElement>) => {
+  const applyTilt = useCallback(
+    (clientX: number, clientY: number) => {
       const card = cardRef.current;
       if (!card) return;
 
       const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
 
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
 
-      // Calculate tilt angles based on mouse position relative to center
+      // Calculate tilt angles based on position relative to center
       const rotateX = ((y - centerY) / centerY) * -maxTilt;
       const rotateY = ((x - centerX) / centerX) * maxTilt;
 
@@ -68,8 +69,8 @@ export function Card3D({
 
       setStyle({
         transform: `perspective(${perspective}px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(${scale}, ${scale}, ${scale})`,
-        boxShadow: `${shadowX.toFixed(1)}px ${shadowY.toFixed(1)}px 30px -10px rgba(0, 0, 0, 0.35), 0 0 20px -5px rgba(var(--accent-rgb, 14, 165, 233), 0.15)`,
-        transition: "transform 100ms ease-out, box-shadow 100ms ease-out",
+        boxShadow: `${shadowX.toFixed(1)}px ${shadowY.toFixed(1)}px 30px -10px rgba(0, 0, 0, 0.35), 0 0 20px -5px rgba(var(--accent-rgb, 14, 165, 233), 0.18)`,
+        transition: "transform 80ms ease-out, box-shadow 80ms ease-out",
       });
 
       if (glare) {
@@ -79,14 +80,14 @@ export function Card3D({
         setGlareStyle({
           opacity: glareMaxOpacity,
           background: `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 70%)`,
-          transition: "opacity 150ms ease-out",
+          transition: "opacity 120ms ease-out",
         });
       }
     },
     [maxTilt, perspective, scale, glare, glareMaxOpacity],
   );
 
-  const handleMouseLeave = useCallback(() => {
+  const resetTilt = useCallback(() => {
     setStyle({
       transform: `perspective(${perspective}px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`,
       boxShadow: "none",
@@ -96,16 +97,30 @@ export function Card3D({
       setGlareStyle((prev) => ({
         ...prev,
         opacity: 0,
-        transition: "opacity 400ms ease-out",
+        transition: "opacity 350ms ease-out",
       }));
     }
   }, [perspective, glare]);
+
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    applyTilt(e.clientX, e.clientY);
+  };
+
+  const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
+    const touch = e.touches[0];
+    if (touch) {
+      applyTilt(touch.clientX, touch.clientY);
+    }
+  };
 
   return (
     <div
       className={cn("relative perspective-[1000px] select-none", containerClassName)}
       onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      onMouseLeave={resetTilt}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={resetTilt}
+      onTouchCancel={resetTilt}
     >
       <div
         ref={cardRef}

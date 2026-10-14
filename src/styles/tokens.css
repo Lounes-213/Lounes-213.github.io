@@ -101,11 +101,9 @@
      (e.g. --font-fraunces) and degrade to a system stack if not loaded. */
 
   :root {
-    /* Typefaces */
-    --font-display: var(--font-fraunces, "Fraunces"), "Iowan Old Style", Georgia,
-      "Times New Roman", serif;
-    --font-sans: var(--font-instrument, "Instrument Sans"), ui-sans-serif, system-ui,
-      "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    /* Typefaces: Elite Software Engineering Stack */
+    --font-display: var(--font-tech-display, "Space Grotesk"), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-sans: var(--font-tech-sans, "Plus Jakarta Sans"), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     --font-mono: var(--font-jetbrains, "JetBrains Mono"), ui-monospace, SFMono-Regular,
       Menlo, Consolas, monospace;
     --font-arabic: var(--font-plex-arabic, "IBM Plex Sans Arabic"), "Segoe UI",

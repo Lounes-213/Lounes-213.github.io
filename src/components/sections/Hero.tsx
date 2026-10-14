@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
-import { ArrowDown, ArrowRight, Download, Terminal } from "@/components/icons";
+import { ArrowDown, ArrowRight, Download, GitHub, Instagram, LinkedIn, Terminal } from "@/components/icons";
+import { IconTikTok } from "@/components/icons/TechIcons";
 import { Card3D } from "@/components/motion/Card3D";
 import { CvLanguagesCard } from "@/components/motion/CvLanguagesCard";
 import { CreativeFloatingBlobs } from "@/components/motion/CreativeFloatingBlobs";
@@ -54,13 +55,15 @@ export async function Hero({ locale }: HeroProps) {
                 )}
               </div>
 
-              {/* Status Badge */}
-              <span
-                className="absolute bottom-1 end-1 size-5 sm:size-6 rounded-full bg-surface border-2 border-bg flex items-center justify-center shadow-sm"
-                title="Active Full-Stack & Mobile Engineer"
+              {/* Pro Verified Dev Badge - Clean, no tacky pulsing */}
+              <div
+                className="absolute bottom-0 end-0 size-6 sm:size-7 rounded-full bg-surface border-2 border-bg shadow-sm text-accent flex items-center justify-center"
+                title="Verified Software Engineer"
               >
-                <span className="size-2.5 sm:size-3 rounded-full bg-success" />
-              </span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-accent">
+                  <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
             </div>
 
             {/* Pro Profile Name Typography */}
@@ -118,6 +121,46 @@ export async function Hero({ locale }: HeroProps) {
                   {t("ctaSecondary")}
                 </ButtonLink>
               </div>
+
+              {/* Official Social Links Bar with Brand Icons */}
+              <div className="mt-4 flex items-center justify-center gap-2">
+                <a
+                  href="https://github.com/Lounes-213"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="grid size-9 place-items-center rounded-xl border border-border-subtle bg-surface-sunken/80 text-fg-muted hover:text-fg hover:border-accent/40 hover:bg-surface-elevated transition-all shadow-xs hover:scale-105"
+                  title="GitHub (Lounes-213)"
+                >
+                  <GitHub size={17} />
+                </a>
+                <a
+                  href="https://linkedin.com/in/bensebalounes"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="grid size-9 place-items-center rounded-xl border border-border-subtle bg-surface-sunken/80 text-fg-muted hover:text-[#0A66C2] hover:border-[#0A66C2]/40 hover:bg-surface-elevated transition-all shadow-xs hover:scale-105"
+                  title="LinkedIn (bensebalounes)"
+                >
+                  <LinkedIn size={17} />
+                </a>
+                <a
+                  href="https://instagram.com/lounes.7i"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="grid size-9 place-items-center rounded-xl border border-border-subtle bg-surface-sunken/80 text-fg-muted hover:text-[#E1306C] hover:border-[#E1306C]/40 hover:bg-surface-elevated transition-all shadow-xs hover:scale-105"
+                  title="Instagram (@lounes.7i)"
+                >
+                  <Instagram size={17} />
+                </a>
+                <a
+                  href="https://tiktok.com/@lounes.7i"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="grid size-9 place-items-center rounded-xl border border-border-subtle bg-surface-sunken/80 text-fg-muted hover:text-fg hover:border-accent/40 hover:bg-surface-elevated transition-all shadow-xs hover:scale-105"
+                  title="TikTok (@lounes.7i)"
+                >
+                  <IconTikTok size={17} />
+                </a>
+              </div>
             </div>
           </div>
         </Reveal>
@@ -151,18 +194,14 @@ export async function Hero({ locale }: HeroProps) {
                       <Terminal size={16} />
                       <span className="font-mono text-caption ltr-island">{t("terminalCommand")}</span>
                     </div>
-                    <span className="inline-flex items-center gap-1.5 font-mono text-[10px] text-accent font-semibold tracking-wider">
-                      <span className="size-1.5 rounded-full bg-accent animate-pulse" />
-                      3D SPATIAL CORE
+                    <span className="font-mono text-[11px] text-fg-subtle">
+                      node::core_v2
                     </span>
                   </div>
 
                   {/* Interactive Three.js 3D WebGL Tech Orb */}
-                  <div className="my-3 flex flex-col items-center justify-center relative overflow-hidden rounded-xl bg-surface-sunken/50 border border-border-subtle/80 py-2 group">
+                  <div className="my-3 flex flex-col items-center justify-center relative overflow-hidden rounded-xl bg-surface-sunken/50 border border-border-subtle/80 py-2">
                     <ThreeDTechOrb size={170} className="w-[170px] h-[170px] cursor-grab active:cursor-grabbing" />
-                    <span className="font-mono text-[10px] text-fg-subtle tracking-wider uppercase opacity-70 group-hover:opacity-100 transition-opacity">
-                      Interactive 3D Engine · Move cursor
-                    </span>
                   </div>
 
                   <dl className="mt-3 flex flex-col gap-2.5 font-mono text-caption">

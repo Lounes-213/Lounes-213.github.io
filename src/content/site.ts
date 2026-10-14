@@ -20,7 +20,6 @@ export const site = parseContent(
       { id: "work", href: "#work" },
       { id: "about", href: "#about" },
       { id: "skills", href: "#skills" },
-      { id: "services", href: "#services" },
       { id: "contact", href: "#contact" },
     ],
     builtWith: [

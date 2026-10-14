@@ -1,20 +1,19 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { Compass, Layers, Mail, Shield, Smartphone } from "@/components/icons";
+import { Compass, Layers, Mail, Smartphone } from "@/components/icons";
 import { useActiveSection } from "@/components/layout/useActiveSection";
 import { site } from "@/content/site";
 import type { SectionId } from "@/content/schema";
 import { cn } from "@/lib/utils/cn";
 
 /** Key destinations visitors need on mobile, including Work. */
-const TAB_IDS = ["work", "about", "skills", "services", "contact"] as const satisfies readonly SectionId[];
+const TAB_IDS = ["work", "about", "skills", "contact"] as const satisfies readonly SectionId[];
 
 const TAB_ICONS = {
   work: Smartphone,
   about: Compass,
   skills: Layers,
-  services: Shield,
   contact: Mail,
 } as const;
 
